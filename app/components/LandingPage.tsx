@@ -15,8 +15,8 @@ export default function LandingPage() {
 
   return (
     <Layout>
-      <div className="h-screen w-full flex flex-col items-center justify-center text-center px-6 relative">
-        <div className="absolute inset-0 -z-10 overflow-hidden">
+      <div className="h-[calc(100vh-3.5rem)] w-full flex flex-col items-center justify-center text-center px-6 relative">
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
           <motion.div
             className="absolute top-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl"
             animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}

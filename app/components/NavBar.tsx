@@ -11,9 +11,9 @@ export default function NavBar() {
           <span className="font-semibold tracking-wide">LEGACY</span>
         </Link>
         <div className="flex items-center gap-6 text-sm">
+          <Link href="/" className="text-neutral-300 hover:text-white transition-colors">Home</Link>
           <Link href="/shop" className="text-neutral-300 hover:text-white transition-colors">Shop</Link>
           <Link href="/about" className="text-neutral-300 hover:text-white transition-colors">About</Link>
-          <Link href="/admin" className="text-neutral-300 hover:text-white transition-colors">Admin</Link>
         </div>
       </nav>
     </header>
