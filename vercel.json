@@ -1,0 +1,15 @@
+{
+	"version": 2,
+	"public": true,
+	"builds": [
+		{ "src": "public/**/*", "use": "@vercel/static" },
+		{ "src": "api/**/*.ts", "use": "@vercel/node" }
+	],
+	"routes": [
+		{ "src": "/", "dest": "/public/index.html" },
+		{ "src": "/shop", "dest": "/public/shop.html" },
+		{ "src": "/about", "dest": "/public/about.html" },
+		{ "src": "/admin", "dest": "/public/admin.html" },
+		{ "src": "/assets/(.*)", "dest": "/public/assets/$1" }
+	]
+}
