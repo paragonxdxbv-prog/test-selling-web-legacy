@@ -132,7 +132,7 @@ export default function Section({
         >
           <img
             src="/images/legacy-logo.png"
-            alt="LEGACY Logo"
+            alt="Logo"
             className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain filter brightness-0 invert drop-shadow-2xl"
           />
         </motion.div>
