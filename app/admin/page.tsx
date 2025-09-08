@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { db } from "@/lib/firebase"
+import Layout from "../components/Layout"
 import { doc, getDoc, setDoc, collection, addDoc, serverTimestamp } from "firebase/firestore"
 
 export default function AdminPage() {
@@ -59,7 +60,8 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen p-8 max-w-5xl mx-auto">
+    <Layout>
+    <div className="min-h-[calc(100vh-3.5rem)] p-8 max-w-5xl mx-auto">
       <h1 className="text-4xl font-bold mb-6">Admin</h1>
       {!ready ? (
         <p className="text-neutral-400">Loading…</p>
@@ -115,6 +117,7 @@ export default function AdminPage() {
         </div>
       )}
     </div>
+    </Layout>
   )
 }
 

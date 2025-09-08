@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { db } from "@/lib/firebase"
 import { doc, getDoc } from "firebase/firestore"
+import Layout from "../components/Layout"
 
 export default function AboutPage() {
   const [content, setContent] = useState<string>("")
@@ -21,16 +22,18 @@ export default function AboutPage() {
   }, [])
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8">
-      <div className="max-w-3xl text-center">
-        <h1 className="text-5xl font-bold mb-6">About Us</h1>
-        {loading ? (
-          <p className="text-neutral-400">Loading…</p>
-        ) : (
-          <p className="text-neutral-300 text-lg whitespace-pre-wrap">{content || "No content yet."}</p>
-        )}
+    <Layout>
+      <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center p-8">
+        <div className="max-w-3xl text-center">
+          <h1 className="text-5xl font-bold mb-6">About Us</h1>
+          {loading ? (
+            <p className="text-neutral-400">Loading…</p>
+          ) : (
+            <p className="text-neutral-300 text-lg whitespace-pre-wrap">{content || "No content yet."}</p>
+          )}
+        </div>
       </div>
-    </div>
+    </Layout>
   )
 }
 

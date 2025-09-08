@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { db } from "@/lib/firebase"
+import Layout from "../components/Layout"
 import { collection, getDocs, query, where, limit } from "firebase/firestore"
 
 type Featured = {
@@ -44,7 +45,8 @@ export default function ShopPage() {
   const current = useMemo(() => items[index], [items, index])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 relative">
+    <Layout>
+    <div className="min-h-[calc(100vh-3.5rem)] flex flex-col items-center justify-center p-8 relative">
       <AnimatePresence mode="wait">
         <motion.div
           key={current.id}
@@ -72,6 +74,7 @@ export default function ShopPage() {
         )}
       </div>
     </div>
+    </Layout>
   )
 }
 

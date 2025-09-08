@@ -31,13 +31,13 @@ export default function LandingPage() {
         <motion.img
           src="/images/legacy-logo.png"
           alt="Logo"
-          className="w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 object-contain filter brightness-0 invert drop-shadow-2xl mb-8"
+          className="w-28 h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 object-contain drop-shadow-2xl mb-6"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
         />
         <motion.h1
-          className="text-5xl md:text-7xl lg:text-[7rem] xl:text-[8rem] font-bold bg-gradient-to-r from-white via-gray-200 to-gray-300 bg-clip-text text-transparent leading-[1.1] tracking-tight"
+          className="text-5xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-white via-gray-200 to-gray-300 bg-clip-text text-transparent leading-[1.1] tracking-tight"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
