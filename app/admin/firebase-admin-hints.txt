@@ -1,4 +1,0 @@
-Admin functionalities will connect to client Firebase Firestore.
-Secure rules are required. Consider using Firebase Auth + Role claim for access.
-
-
