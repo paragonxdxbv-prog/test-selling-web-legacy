@@ -47,4 +47,3 @@ RESEND_API_KEY="" # get it here https://resend.com/
 \`\`\`bash
 pnpm dev
 \`\`\`
-s
