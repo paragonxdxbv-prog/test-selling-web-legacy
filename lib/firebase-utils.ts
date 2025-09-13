@@ -1,11 +1,13 @@
 import { 
+  getFirestore, 
   collection, 
-  doc, 
-  getDocs, 
-  getDoc, 
   addDoc, 
+  getDocs, 
+  doc, 
+  getDoc, 
   updateDoc, 
   deleteDoc, 
+  setDoc,
   query, 
   where, 
   orderBy, 
@@ -164,40 +166,99 @@ export const getUserOrders = async (userId: string) => {
 }
 
 // Content management functions
+export const getAboutContent = async () => {
+  try {
+    const docRef = doc(db, 'content', 'about')
+    const docSnap = await getDoc(docRef)
+    
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() }
+    } else {
+      // Return default content if document doesn't exist
+      return {
+        heroTitle: "ABOUT LEGACY",
+        heroDescription: "WE ARE PIONEERS IN THE FUSION OF FASHION AND TECHNOLOGY, CREATING UNPRECEDENTED SHOPPING EXPERIENCES THAT BRIDGE THE GAP BETWEEN DIGITAL AND PHYSICAL REALITY.",
+        storyTitle: "OUR STORY",
+        storyContent: [
+          "Founded in 2010, LEGACY emerged from a simple yet revolutionary idea: what if technology could make fashion more personal, more accessible, and more exciting than ever before?",
+          "We started as a small team of fashion enthusiasts and tech innovators, united by a shared vision of transforming how people discover, try on, and experience clothing in the digital age.",
+          "Today, we're proud to be at the forefront of AI-powered fashion technology, serving millions of customers worldwide with our innovative try-on experiences and premium product offerings."
+        ],
+        missionTitle: "OUR MISSION",
+        missionContent: "TO DEMOCRATIZE FASHION BY MAKING IT MORE ACCESSIBLE, PERSONAL, AND SUSTAINABLE THROUGH INNOVATIVE TECHNOLOGY, WHILE MAINTAINING THE HIGHEST STANDARDS OF QUALITY AND CUSTOMER EXPERIENCE."
+      }
+    }
+  } catch (error) {
+    console.error('Error getting about content:', error)
+    throw error
+  }
+}
+
+export const getCompanyRules = async () => {
+  try {
+    const docRef = doc(db, 'content', 'rules')
+    const docSnap = await getDoc(docRef)
+    
+    if (docSnap.exists()) {
+      return docSnap.data().rules || []
+    } else {
+      // Return default rules if document doesn't exist
+      return [
+        "All products must meet our premium quality standards before listing",
+        "Customer data privacy and security is our top priority",
+        "We maintain sustainable and ethical sourcing practices",
+        "Innovation and customer experience drive all our decisions",
+        "We provide honest and transparent product descriptions"
+      ]
+    }
+  } catch (error) {
+    console.error('Error getting company rules:', error)
+    throw error
+  }
+}
+
 export const saveAboutContent = async (aboutData: any) => {
   try {
     const docRef = doc(db, 'content', 'about')
-    await updateDoc(docRef, {
-      ...aboutData,
-      updatedAt: new Date()
-    })
+    // Try to update first
+    try {
+      await updateDoc(docRef, {
+        ...aboutData,
+        updatedAt: new Date()
+      })
+    } catch (updateError) {
+      // If document doesn't exist, create it using setDoc
+      await setDoc(docRef, {
+        ...aboutData,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
   } catch (error) {
-    // If document doesn't exist, create it with specific ID
-    const docRef = doc(db, 'content', 'about')
-    await addDoc(collection(db, 'content'), {
-      id: 'about',
-      ...aboutData,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    })
+    console.error('Error saving about content:', error)
+    throw error
   }
 }
 
 export const saveCompanyRules = async (rules: string[]) => {
   try {
     const docRef = doc(db, 'content', 'rules')
-    await updateDoc(docRef, {
-      rules,
-      updatedAt: new Date()
-    })
+    // Try to update first
+    try {
+      await updateDoc(docRef, {
+        rules,
+        updatedAt: new Date()
+      })
+    } catch (updateError) {
+      // If document doesn't exist, create it using setDoc
+      await setDoc(docRef, {
+        rules,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
   } catch (error) {
-    // If document doesn't exist, create it with specific ID
-    const docRef = doc(db, 'content', 'rules')
-    await addDoc(collection(db, 'content'), {
-      id: 'rules',
-      rules,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    })
+    console.error('Error saving company rules:', error)
+    throw error
   }
 }

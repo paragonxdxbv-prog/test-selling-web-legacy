@@ -10,7 +10,7 @@ import { ImageWithLoading } from "@/components/image-with-loading"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
 import { AdminAuth } from "@/components/admin-auth"
 import { logEvent } from "@/lib/firebase-utils"
-import { getProducts, addProduct, updateProduct, deleteProduct, saveAboutContent, saveCompanyRules } from "@/lib/firebase-utils"
+import { getProducts, addProduct, updateProduct, deleteProduct, getAboutContent, getCompanyRules, saveAboutContent, saveCompanyRules } from "@/lib/firebase-utils"
 
 interface Product {
   id: string
@@ -30,24 +30,14 @@ export default function AdminPage() {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
   const [activeTab, setActiveTab] = useState("products")
   const [aboutContent, setAboutContent] = useState({
-    heroTitle: "ABOUT LEGACY",
-    heroDescription: "WE ARE PIONEERS IN THE FUSION OF FASHION AND TECHNOLOGY, CREATING UNPRECEDENTED SHOPPING EXPERIENCES THAT BRIDGE THE GAP BETWEEN DIGITAL AND PHYSICAL REALITY.",
-    storyTitle: "OUR STORY",
-    storyContent: [
-      "Founded in 2010, LEGACY emerged from a simple yet revolutionary idea: what if technology could make fashion more personal, more accessible, and more exciting than ever before?",
-      "We started as a small team of fashion enthusiasts and tech innovators, united by a shared vision of transforming how people discover, try on, and experience clothing in the digital age.",
-      "Today, we're proud to be at the forefront of AI-powered fashion technology, serving millions of customers worldwide with our innovative try-on experiences and premium product offerings."
-    ],
-    missionTitle: "OUR MISSION",
-    missionContent: "TO DEMOCRATIZE FASHION BY MAKING IT MORE ACCESSIBLE, PERSONAL, AND SUSTAINABLE THROUGH INNOVATIVE TECHNOLOGY, WHILE MAINTAINING THE HIGHEST STANDARDS OF QUALITY AND CUSTOMER EXPERIENCE."
+    heroTitle: "",
+    heroDescription: "",
+    storyTitle: "",
+    storyContent: [],
+    missionTitle: "",
+    missionContent: ""
   })
-  const [companyRules, setCompanyRules] = useState([
-    "All products must meet our premium quality standards before listing",
-    "Customer data privacy and security is our top priority",
-    "We maintain sustainable and ethical sourcing practices",
-    "Innovation and customer experience drive all our decisions",
-    "We provide honest and transparent product descriptions"
-  ])
+  const [companyRules, setCompanyRules] = useState<string[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -72,6 +62,8 @@ export default function AdminPage() {
 
   useEffect(() => {
     loadProducts()
+    loadAboutContent()
+    loadCompanyRules()
   }, [])
 
   const loadProducts = async () => {
@@ -83,6 +75,24 @@ export default function AdminPage() {
       console.error('Error loading products:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const loadAboutContent = async () => {
+    try {
+      const content = await getAboutContent()
+      setAboutContent(content)
+    } catch (error) {
+      console.error('Error loading about content:', error)
+    }
+  }
+
+  const loadCompanyRules = async () => {
+    try {
+      const rules = await getCompanyRules()
+      setCompanyRules(rules)
+    } catch (error) {
+      console.error('Error loading company rules:', error)
     }
   }
 

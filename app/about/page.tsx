@@ -1,11 +1,11 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
-import { Upload, ShoppingBag, Heart, Search, Users, Award, Globe, Target } from "lucide-react"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
-import { getDocument } from "@/lib/firebase-utils"
+import { getAboutContent, getCompanyRules } from "@/lib/firebase-utils"
+import { Upload, ShoppingBag, Heart, Search, Users, Award, Globe, Target } from "lucide-react"
 
 export default function AboutPage() {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
@@ -24,10 +24,8 @@ export default function AboutPage() {
 
   const loadCompanyRules = async () => {
     try {
-      const rulesData = await getDocument('content', 'rules')
-      if (rulesData && rulesData.rules) {
-        setCompanyRules(rulesData.rules)
-      }
+      const rules = await getCompanyRules()
+      setCompanyRules(rules)
     } catch (error) {
       console.error('Error loading company rules:', error)
       // Fallback to default rules
