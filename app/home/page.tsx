@@ -55,10 +55,10 @@ export default function HomePage() {
               style={{ transitionDelay: "500ms" }}
             >
               <h1 className="text-4xl md:text-6xl font-bold mb-6 dark:text-white">
-                LEGACY PRODUCTS
+                LEGACY
               </h1>
               <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-mono tracking-wider mb-12 max-w-2xl mx-auto">
-                PREMIUM FASHION EXPERIENCE
+                PREMIUM PRODUCTS EXPERIENCE
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
