@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   title: 'LEGACY',
   description: 'LEGACY - Premium Fashion Experience',
   generator: 'LEGACY',
+  icons: {
+    icon: '/acme-logo.png',
+    shortcut: '/acme-logo.png',
+    apple: '/acme-logo.png',
+  },
 }
 
 export default function RootLayout({
