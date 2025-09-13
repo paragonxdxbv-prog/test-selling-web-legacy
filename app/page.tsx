@@ -425,7 +425,7 @@ export default function BananaSportswearStorefront() {
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center">
-            <img src="/acme-logo.png" alt="BANANA SPORTSWEAR" className="h-10 w-auto" />
+            <img src="/acme-logo.png" alt="LEGACY" className="h-10 w-auto" />
           </div>
 
           <nav className="hidden md:flex items-center space-x-12">
@@ -556,11 +556,11 @@ export default function BananaSportswearStorefront() {
       >
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center mb-6">
-            <img src="/acme-logo.png" alt="BANANA SPORTSWEAR" className="h-8 w-auto opacity-40" />
+            <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40" />
           </div>
 
           <p className="text-gray-400 text-xs font-mono tracking-widest uppercase">
-            © 2025 BANANA SPORTSWEAR, INC. ALL RIGHTS RESERVED.
+            © 2025 LEGACY, INC. ALL RIGHTS RESERVED.
           </p>
         </div>
       </footer>
