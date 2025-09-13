@@ -726,10 +726,11 @@ export default function AdminPage() {
       >
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center mb-6">
-            <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40" />
+            <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40 dark:hidden" />
+            <img src="/legacy.png" alt="LEGACY" className="h-8 w-auto opacity-40 hidden dark:block" />
           </div>
           <p className="text-gray-400 text-xs font-mono tracking-widest uppercase">
-            © 2025 LEGACY, INC. ALL RIGHTS RESERVED.
+            2025 LEGACY, INC. ALL RIGHTS RESERVED.
           </p>
         </div>
       </footer>

@@ -54,8 +54,8 @@ export default function HomePage() {
               }`}
               style={{ transitionDelay: "500ms" }}
             >
-              <h1 className="text-6xl md:text-8xl font-medium tracking-widest uppercase mb-8">
-                LEGACY
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 dark:text-white">
+                LEGACY PRODUCTS
               </h1>
               <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-mono tracking-wider mb-12 max-w-2xl mx-auto">
                 PREMIUM FASHION EXPERIENCE
@@ -91,7 +91,8 @@ export default function HomePage() {
       >
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center mb-6">
-            <img src="/legacy.png" alt="LEGACY" className="h-8 w-auto opacity-40" />
+            <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40 dark:hidden" />
+            <img src="/legacy.png" alt="LEGACY" className="h-8 w-auto opacity-40 hidden dark:block" />
           </div>
           <p className="text-gray-400 dark:text-gray-500 text-xs font-mono tracking-widest uppercase">
             © 2025 LEGACY, INC. ALL RIGHTS RESERVED.
