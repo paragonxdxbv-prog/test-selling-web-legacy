@@ -1,6 +1,9 @@
 import { generateText } from "ai"
 import { type NextRequest, NextResponse } from "next/server"
 
+// Configure function timeout for Vercel
+export const maxDuration = 30
+
 console.log("[v0] AI Gateway API key available:", !!process.env.AI_GATEWAY_API_KEY)
 
 async function convertImageToSupportedFormat(file: File): Promise<{ buffer: Buffer; mimeType: string }> {
