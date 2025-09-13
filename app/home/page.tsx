@@ -36,7 +36,7 @@ export default function HomePage() {
 
   return (
     <div
-      className={`min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white font-mono transition-all duration-1000 ${
+      className={`min-h-screen bg-white dark:bg-black text-black dark:text-white font-mono transition-all duration-1000 ${
         isPageLoaded ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -54,11 +54,11 @@ export default function HomePage() {
               }`}
               style={{ transitionDelay: "500ms" }}
             >
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 dark:text-white">
-                LEGACY PRODUCTS
+              <h1 className="text-6xl md:text-8xl font-medium tracking-widest uppercase mb-8">
+                LEGACY
               </h1>
-              <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 font-mono tracking-wider mb-12 max-w-2xl mx-auto">
-                PREMIUM FASHION EXPERIENCE
+              <p className="text-lg md:text-xl text-gray-600 dark:text-white font-mono tracking-wider mb-12 max-w-2xl mx-auto">
+                PREMIUM PRODUCTS EXPERIENCE
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <Button
@@ -84,7 +84,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer
-        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-gray-800 transition-all duration-700 ${
+        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-black transition-all duration-700 ${
           isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
         }`}
         style={{ transitionDelay: "1000ms" }}
@@ -94,7 +94,7 @@ export default function HomePage() {
             <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40 dark:hidden" />
             <img src="/legacy.png" alt="LEGACY" className="h-8 w-auto opacity-40 hidden dark:block" />
           </div>
-          <p className="text-gray-400 dark:text-gray-500 text-xs font-mono tracking-widest uppercase">
+          <p className="text-gray-400 dark:text-white text-xs font-mono tracking-widest uppercase">
             © 2025 LEGACY, INC. ALL RIGHTS RESERVED.
           </p>
         </div>

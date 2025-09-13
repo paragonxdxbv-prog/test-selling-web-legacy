@@ -613,7 +613,7 @@ export default function AdminPage() {
                     {aboutContent?.values && aboutContent.values.length > 0 ? (
                       aboutContent.values.map((value, index) => (
                         <div key={index} className="mb-4">
-                          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Value {index + 1}</label>
+                          <label className="block text-xs text-gray-500 dark:text-white mb-1">Value {index + 1}</label>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Input
                               placeholder="Title"
@@ -641,7 +641,7 @@ export default function AdminPage() {
                       ))
                     ) : (
                       <div className="text-center py-8">
-                        <p className="text-gray-500 dark:text-gray-400 text-sm font-mono tracking-wider">
+                        <p className="text-gray-500 dark:text-white text-sm font-mono tracking-wider">
                           No values found. Add some values to display them.
                         </p>
                       </div>

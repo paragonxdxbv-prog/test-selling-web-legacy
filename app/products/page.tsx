@@ -108,7 +108,7 @@ export default function ProductsPage() {
 
   return (
     <div
-      className={`min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white font-mono transition-all duration-1000 ${
+      className={`min-h-screen bg-white dark:bg-black text-black dark:text-white font-mono transition-all duration-1000 ${
         isPageLoaded ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -129,7 +129,7 @@ export default function ProductsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-4 transition-all duration-300 ${
+                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-4 transition-all duration-300 ${
                   viewMode === "grid" ? "bg-black dark:bg-white text-white dark:text-black" : ""
                 }`}
                 onClick={() => handleViewModeChange("grid")}
@@ -140,7 +140,7 @@ export default function ProductsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-4 transition-all duration-300 ${
+                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-4 transition-all duration-300 ${
                   viewMode === "list" ? "bg-black dark:bg-white text-white dark:text-black" : ""
                 }`}
                 onClick={() => handleViewModeChange("list")}
@@ -300,7 +300,7 @@ export default function ProductsPage() {
               }`}
               style={{ transitionDelay: "600ms" }}
             >
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-mono tracking-widest uppercase">
+              <p className="text-gray-500 dark:text-white text-sm font-mono tracking-widest uppercase">
                 NO PRODUCTS FOUND
               </p>
             </div>
@@ -311,7 +311,7 @@ export default function ProductsPage() {
 
       {/* Footer */}
       <footer
-        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-gray-800 transition-all duration-700 ${
+        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-black transition-all duration-700 ${
           isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
         }`}
         style={{ transitionDelay: "1000ms" }}
@@ -321,7 +321,7 @@ export default function ProductsPage() {
             <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40 dark:hidden" />
             <img src="/legacy.png" alt="LEGACY" className="h-8 w-auto opacity-40 hidden dark:block" />
           </div>
-          <p className="text-gray-400 dark:text-gray-500 text-xs font-mono tracking-widest uppercase">
+          <p className="text-gray-400 dark:text-white text-xs font-mono tracking-widest uppercase">
             © 2025 LEGACY, INC. ALL RIGHTS RESERVED.
           </p>
         </div>

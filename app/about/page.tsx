@@ -205,12 +205,12 @@ export default function AboutPage() {
                   {companyRules.map((rule, index) => (
                     <div
                       key={index}
-                      className="bg-gray-50 dark:bg-gray-700 p-6 border-l-4 border-black dark:border-white"
+                      className="bg-gray-50 dark:bg-black p-6 border-l-4 border-black dark:border-white"
                       style={{ transitionDelay: `${1300 + index * 100}ms` }}
                     >
                       <div className="flex items-start space-x-4">
                         <span className="text-black dark:text-white font-bold text-lg">{index + 1}.</span>
-                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{rule}</p>
+                        <p className="text-gray-700 dark:text-white leading-relaxed">{rule}</p>
                       </div>
                     </div>
                   ))}
@@ -224,7 +224,7 @@ export default function AboutPage() {
 
       {/* Footer */}
       <footer
-        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-gray-800 transition-all duration-700 ${
+        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-black transition-all duration-700 ${
           isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
         }`}
         style={{ transitionDelay: "1300ms" }}
@@ -234,7 +234,7 @@ export default function AboutPage() {
             <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40 dark:hidden" />
             <img src="/legacy.png" alt="LEGACY" className="h-8 w-auto opacity-40 hidden dark:block" />
           </div>
-          <p className="text-gray-400 dark:text-gray-500 text-xs font-mono tracking-widest uppercase">
+          <p className="text-gray-400 dark:text-white text-xs font-mono tracking-widest uppercase">
             © 2025 LEGACY, INC. ALL RIGHTS RESERVED.
           </p>
         </div>
