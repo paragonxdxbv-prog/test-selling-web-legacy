@@ -3,18 +3,43 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Instagram, Youtube } from "lucide-react"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
 import { Navigation } from "@/components/navigation"
-import { logEvent } from "@/lib/firebase-utils"
+import { logEvent, getSocialMediaUrls } from '@/lib/firebase-utils'
+
+// TikTok Icon Component
+const TikTokIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+  </svg>
+)
 
 export default function HomePage() {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
+  const [socialMedia, setSocialMedia] = useState({
+    instagram: "https://instagram.com/legacy",
+    tiktok: "https://tiktok.com/@legacy", 
+    youtube: "https://youtube.com/@legacy"
+  })
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsPageLoaded(true)
     }, 100)
+    
+    // Load social media URLs from Firebase
+    const loadSocialMedia = async () => {
+      try {
+        const urls = await getSocialMediaUrls()
+        setSocialMedia(urls)
+      } catch (error) {
+        console.error('Error loading social media URLs:', error)
+      }
+    }
+    
+    loadSocialMedia()
+    
     return () => clearTimeout(timer)
   }, [])
 
@@ -32,6 +57,14 @@ export default function HomePage() {
       page: 'home'
     })
     window.location.href = '/about'
+  }
+
+  const handleSocialClick = (platform: string, url: string) => {
+    logEvent('social_click', {
+      platform,
+      page: 'home'
+    })
+    window.open(url, '_blank')
   }
 
   return (
@@ -81,6 +114,87 @@ export default function HomePage() {
         </div>
 
       </div>
+
+      {/* Features Section */}
+      <section
+        className={`py-24 px-8 bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-gray-800 transition-all duration-700 ${
+          isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+        }`}
+        style={{ transitionDelay: "800ms" }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-medium tracking-widest uppercase mb-6">
+              EXPERIENCE LEGACY
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 font-mono tracking-wider max-w-2xl mx-auto">
+              Discover premium products crafted with precision and innovation
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-12 mb-16">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-black dark:bg-white mx-auto mb-6 flex items-center justify-center">
+                <span className="text-white dark:text-black font-mono text-xl font-bold">01</span>
+              </div>
+              <h3 className="text-xl font-medium tracking-widest uppercase mb-4">PREMIUM QUALITY</h3>
+              <p className="text-gray-600 dark:text-gray-300 font-mono text-sm leading-relaxed">
+                Every product undergoes rigorous quality control to meet our exceptional standards
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-black dark:bg-white mx-auto mb-6 flex items-center justify-center">
+                <span className="text-white dark:text-black font-mono text-xl font-bold">02</span>
+              </div>
+              <h3 className="text-xl font-medium tracking-widest uppercase mb-4">INNOVATIVE DESIGN</h3>
+              <p className="text-gray-600 dark:text-gray-300 font-mono text-sm leading-relaxed">
+                Cutting-edge aesthetics combined with functional excellence in every creation
+              </p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-black dark:bg-white mx-auto mb-6 flex items-center justify-center">
+                <span className="text-white dark:text-black font-mono text-xl font-bold">03</span>
+              </div>
+              <h3 className="text-xl font-medium tracking-widest uppercase mb-4">CUSTOMER FOCUS</h3>
+              <p className="text-gray-600 dark:text-gray-300 font-mono text-sm leading-relaxed">
+                Your satisfaction drives our commitment to excellence and continuous improvement
+              </p>
+            </div>
+          </div>
+
+          {/* Social Media Section */}
+          <div className="text-center">
+            <h3 className="text-2xl font-medium tracking-widest uppercase mb-8">FOLLOW US</h3>
+            <div className="flex justify-center gap-6">
+              <button
+                onClick={() => handleSocialClick('instagram', socialMedia.instagram)}
+                className="w-12 h-12 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-110 flex items-center justify-center"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram className="w-6 h-6" />
+              </button>
+              
+              <button
+                onClick={() => handleSocialClick('tiktok', socialMedia.tiktok)}
+                className="w-12 h-12 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-110 flex items-center justify-center"
+                aria-label="Follow us on TikTok"
+              >
+                <TikTokIcon className="w-6 h-6" />
+              </button>
+              
+              <button
+                onClick={() => handleSocialClick('youtube', socialMedia.youtube)}
+                className="w-12 h-12 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-all duration-300 hover:scale-110 flex items-center justify-center"
+                aria-label="Follow us on YouTube"
+              >
+                <Youtube className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer

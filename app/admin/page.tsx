@@ -10,8 +10,8 @@ import { ImageWithLoading } from "@/components/image-with-loading"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
 import { AdminAuth } from "@/components/admin-auth"
 import { Navigation } from "@/components/navigation"
-import { logEvent } from "@/lib/firebase-utils"
-import { getProducts, addProduct, updateProduct, deleteProduct, getAboutContent, getCompanyRules, saveAboutContent, saveCompanyRules } from "@/lib/firebase-utils"
+import { logEvent } from '@/lib/firebase-utils'
+import { getProducts, addProduct, updateProduct, deleteProduct, getAboutContent, saveAboutContent, getCompanyRules, saveCompanyRules, getSocialMediaUrls, saveSocialMediaUrls } from '@/lib/firebase-utils'
 
 interface Product {
   id: string
@@ -45,6 +45,11 @@ export default function AdminPage() {
     ]
   })
   const [companyRules, setCompanyRules] = useState<string[]>([])
+  const [socialMedia, setSocialMedia] = useState({
+    instagram: "https://instagram.com/legacy",
+    tiktok: "https://tiktok.com/@legacy",
+    youtube: "https://youtube.com/@legacy"
+  })
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -71,6 +76,7 @@ export default function AdminPage() {
     loadProducts()
     loadAboutContent()
     loadCompanyRules()
+    loadSocialMediaUrls()
   }, [])
 
   const loadProducts = async () => {
@@ -106,7 +112,6 @@ export default function AdminPage() {
       if (rules && rules.length > 0) {
         setCompanyRules(rules)
       } else {
-        // Fallback to default rules if none exist
         const defaultRules = [
           "All products must meet our premium quality standards before listing",
           "Customer data privacy and security is our top priority",
@@ -118,7 +123,6 @@ export default function AdminPage() {
       }
     } catch (error) {
       console.error('Error loading company rules:', error)
-      // Fallback to default rules on error
       const defaultRules = [
         "All products must meet our premium quality standards before listing",
         "Customer data privacy and security is our top priority",
@@ -127,6 +131,15 @@ export default function AdminPage() {
         "We provide honest and transparent product descriptions"
       ]
       setCompanyRules(defaultRules)
+    }
+  }
+
+  const loadSocialMediaUrls = async () => {
+    try {
+      const urls = await getSocialMediaUrls()
+      setSocialMedia(urls)
+    } catch (error) {
+      console.error('Error loading social media URLs:', error)
     }
   }
 
@@ -237,6 +250,22 @@ export default function AdminPage() {
     }
   }
 
+  const handleSaveSocialMedia = async () => {
+    try {
+      await saveSocialMediaUrls(socialMedia)
+      
+      logEvent('admin_save_social_media', {
+        action: 'save_social_media',
+        page: 'admin'
+      })
+      
+      alert('Social media URLs saved successfully!')
+    } catch (error) {
+      console.error('Error saving social media URLs:', error)
+      alert('Error saving social media URLs. Please try again.')
+    }
+  }
+
   return (
     <div
       className={`min-h-screen bg-white dark:bg-black text-black dark:text-white font-mono transition-all duration-1000 ${
@@ -295,12 +324,38 @@ export default function AdminPage() {
               onClick={() => setActiveTab("rules")}
               className={`px-6 py-3 text-sm font-medium tracking-widest uppercase transition-all duration-300 ${
                 activeTab === "rules"
-                  ? "border-b-2 border-black text-black"
-                  : "text-gray-500 hover:text-black"
+                  ? "border-b-2 border-black dark:border-white text-black dark:text-white"
+                  : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white"
               }`}
             >
-              COMPANY RULES ({companyRules.length})
+              COMPANY RULES
             </button>
+            <button
+              onClick={() => setActiveTab("social")}
+              className={`px-6 py-3 text-sm font-medium tracking-widest uppercase transition-all duration-300 ${
+                activeTab === "social"
+                  ? "border-b-2 border-black dark:border-white text-black dark:text-white"
+                  : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white"
+              }`}
+            >
+              SOCIAL MEDIA
+            </button>
+          </div>
+
+          {/* Add Product Button */}
+          <div
+            className={`mb-8 transition-all duration-700 ${
+              isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
+            style={{ transitionDelay: "400ms" }}
+          >
+            <Button
+              onClick={() => setShowForm(true)}
+              className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 border-0 text-sm font-medium tracking-widest uppercase px-6 py-3 transition-all duration-300"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              ADD PRODUCT
+            </Button>
           </div>
 
           {/* Product Form Modal */}
@@ -736,6 +791,63 @@ export default function AdminPage() {
                   >
                     <Save className="w-4 h-4 mr-2" />
                     SAVE COMPANY RULES
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Social Media Management */}
+          {activeTab === "social" && (
+            <div className="space-y-8">
+              <div className="bg-gray-50 dark:bg-black p-6 rounded-none">
+                <h2 className="text-xl font-medium tracking-widest uppercase mb-6 text-black dark:text-white">SOCIAL MEDIA URLS</h2>
+                
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
+                      INSTAGRAM URL
+                    </label>
+                    <Input
+                      value={socialMedia.instagram}
+                      onChange={(e) => setSocialMedia(prev => ({ ...prev, instagram: e.target.value }))}
+                      placeholder="https://instagram.com/legacy"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
+                      TIKTOK URL
+                    </label>
+                    <Input
+                      value={socialMedia.tiktok}
+                      onChange={(e) => setSocialMedia(prev => ({ ...prev, tiktok: e.target.value }))}
+                      placeholder="https://tiktok.com/@legacy"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
+                      YOUTUBE URL
+                    </label>
+                    <Input
+                      value={socialMedia.youtube}
+                      onChange={(e) => setSocialMedia(prev => ({ ...prev, youtube: e.target.value }))}
+                      placeholder="https://youtube.com/@legacy"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end mt-6">
+                  <Button
+                    onClick={handleSaveSocialMedia}
+                    className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    SAVE SOCIAL MEDIA
                   </Button>
                 </div>
               </div>

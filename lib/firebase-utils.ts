@@ -236,7 +236,7 @@ export const saveAboutContent = async (aboutData: any) => {
 
 export const saveCompanyRules = async (rules: string[]) => {
   try {
-    const docRef = doc(db, 'content', 'rules')
+    const docRef = doc(db, 'settings', 'companyRules')
     // Try to update first
     try {
       await updateDoc(docRef, {
@@ -253,6 +253,61 @@ export const saveCompanyRules = async (rules: string[]) => {
     }
   } catch (error) {
     console.error('Error saving company rules:', error)
+    throw error
+  }
+}
+
+// Social Media functions
+export const getSocialMediaUrls = async () => {
+  try {
+    const docRef = doc(db, 'settings', 'socialMedia')
+    const docSnap = await getDoc(docRef)
+    
+    if (docSnap.exists()) {
+      const data = docSnap.data()
+      return {
+        instagram: data.instagram || "https://instagram.com/legacy",
+        tiktok: data.tiktok || "https://tiktok.com/@legacy",
+        youtube: data.youtube || "https://youtube.com/@legacy"
+      }
+    } else {
+      // Return default URLs if document doesn't exist
+      return {
+        instagram: "https://instagram.com/legacy",
+        tiktok: "https://tiktok.com/@legacy", 
+        youtube: "https://youtube.com/@legacy"
+      }
+    }
+  } catch (error) {
+    console.error('Error getting social media URLs:', error)
+    // Return defaults on error
+    return {
+      instagram: "https://instagram.com/legacy",
+      tiktok: "https://tiktok.com/@legacy",
+      youtube: "https://youtube.com/@legacy"
+    }
+  }
+}
+
+export const saveSocialMediaUrls = async (socialMediaUrls: {instagram: string, tiktok: string, youtube: string}) => {
+  try {
+    const docRef = doc(db, 'settings', 'socialMedia')
+    // Try to update first
+    try {
+      await updateDoc(docRef, {
+        ...socialMediaUrls,
+        updatedAt: new Date()
+      })
+    } catch (updateError) {
+      // If document doesn't exist, create it using setDoc
+      await setDoc(docRef, {
+        ...socialMediaUrls,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+  } catch (error) {
+    console.error('Error saving social media URLs:', error)
     throw error
   }
 }

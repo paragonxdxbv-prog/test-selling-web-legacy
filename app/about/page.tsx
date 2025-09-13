@@ -70,17 +70,30 @@ export default function AboutPage() {
   const loadCompanyRules = async () => {
     try {
       const rules = await getCompanyRules()
-      setCompanyRules(rules)
+      if (rules && rules.length > 0) {
+        setCompanyRules(rules)
+      } else {
+        // Fallback to default rules if none exist
+        const defaultRules = [
+          "All products must meet our premium quality standards before listing",
+          "Customer data privacy and security is our top priority",
+          "We maintain sustainable and ethical sourcing practices",
+          "Innovation and customer experience drive all our decisions",
+          "We provide honest and transparent product descriptions"
+        ]
+        setCompanyRules(defaultRules)
+      }
     } catch (error) {
       console.error('Error loading company rules:', error)
-      // Fallback to default rules
-      setCompanyRules([
+      // Fallback to default rules on error
+      const defaultRules = [
         "All products must meet our premium quality standards before listing",
         "Customer data privacy and security is our top priority",
         "We maintain sustainable and ethical sourcing practices",
         "Innovation and customer experience drive all our decisions",
         "We provide honest and transparent product descriptions"
-      ])
+      ]
+      setCompanyRules(defaultRules)
     }
   }
 
