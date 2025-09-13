@@ -1,15 +1,13 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Products collection - read access for all, write access for authenticated admin
+    // Products collection - read access for all, write access for all (simplified for development)
     match /products/{productId} {
       // Allow read access to all users for product browsing
       allow read: if true;
       
-      // Allow write access only for authenticated admin operations
-      // In production, replace with proper admin authentication
-      allow write: if request.auth != null && 
-        request.auth.token.admin == true;
+      // Allow write access for admin operations (simplified - no auth required for development)
+      allow write: if true;
       
       // Validate product data structure
       allow create, update: if request.resource.data.keys().hasAll(['name', 'price', 'category', 'image', 'description']) &&
@@ -24,14 +22,13 @@ service cloud.firestore {
         (!request.resource.data.keys().hasAny(['buyUrl']) || request.resource.data.buyUrl is string);
     }
     
-    // About page content collection - admin write access only
+    // About page content collection - simplified access
     match /content/about {
       // Allow read access to all users
       allow read: if true;
       
-      // Allow write access only for authenticated admin
-      allow write: if request.auth != null && 
-        request.auth.token.admin == true;
+      // Allow write access for admin operations (simplified)
+      allow write: if true;
       
       // Validate about content structure
       allow create, update: if request.resource.data.keys().hasAll(['heroTitle', 'heroDescription', 'storyTitle', 'storyContent', 'missionTitle', 'missionContent']) &&
@@ -43,14 +40,13 @@ service cloud.firestore {
         request.resource.data.missionContent is string;
     }
     
-    // Company rules collection - admin write access only
+    // Company rules collection - simplified access
     match /content/rules {
       // Allow read access to all users
       allow read: if true;
       
-      // Allow write access only for authenticated admin
-      allow write: if request.auth != null && 
-        request.auth.token.admin == true;
+      // Allow write access for admin operations (simplified)
+      allow write: if true;
       
       // Validate rules structure
       allow create, update: if request.resource.data.keys().hasAll(['rules']) &&

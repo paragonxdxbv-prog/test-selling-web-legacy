@@ -162,3 +162,42 @@ export const getUserOrders = async (userId: string) => {
     orderBy('createdAt', 'desc')
   ])
 }
+
+// Content management functions
+export const saveAboutContent = async (aboutData: any) => {
+  try {
+    const docRef = doc(db, 'content', 'about')
+    await updateDoc(docRef, {
+      ...aboutData,
+      updatedAt: new Date()
+    })
+  } catch (error) {
+    // If document doesn't exist, create it with specific ID
+    const docRef = doc(db, 'content', 'about')
+    await addDoc(collection(db, 'content'), {
+      id: 'about',
+      ...aboutData,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
+  }
+}
+
+export const saveCompanyRules = async (rules: string[]) => {
+  try {
+    const docRef = doc(db, 'content', 'rules')
+    await updateDoc(docRef, {
+      rules,
+      updatedAt: new Date()
+    })
+  } catch (error) {
+    // If document doesn't exist, create it with specific ID
+    const docRef = doc(db, 'content', 'rules')
+    await addDoc(collection(db, 'content'), {
+      id: 'rules',
+      rules,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
+  }
+}

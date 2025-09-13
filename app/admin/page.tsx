@@ -10,7 +10,7 @@ import { ImageWithLoading } from "@/components/image-with-loading"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
 import { AdminAuth } from "@/components/admin-auth"
 import { logEvent } from "@/lib/firebase-utils"
-import { getProducts, addProduct, updateProduct, deleteProduct } from "@/lib/firebase-utils"
+import { getProducts, addProduct, updateProduct, deleteProduct, saveAboutContent, saveCompanyRules } from "@/lib/firebase-utils"
 
 interface Product {
   id: string
@@ -162,11 +162,35 @@ export default function AdminPage() {
     setFormData({
       name: "",
       price: "",
+      originalPrice: "",
+      discountPercentage: "",
       category: "",
       image: "",
       description: "",
       buyUrl: ""
     })
+  }
+
+  const handleSaveAboutContent = async () => {
+    try {
+      await saveAboutContent(aboutContent)
+      alert('About content saved successfully!')
+      logEvent('admin_action', { action: 'save_about_content' })
+    } catch (error) {
+      console.error('Error saving about content:', error)
+      alert('Error saving about content. Please try again.')
+    }
+  }
+
+  const handleSaveCompanyRules = async () => {
+    try {
+      await saveCompanyRules(companyRules)
+      alert('Company rules saved successfully!')
+      logEvent('admin_action', { action: 'save_company_rules' })
+    } catch (error) {
+      console.error('Error saving company rules:', error)
+      alert('Error saving company rules. Please try again.')
+    }
   }
 
   return (
@@ -607,6 +631,7 @@ export default function AdminPage() {
 
                   <div className="flex justify-end">
                     <Button
+                      onClick={handleSaveAboutContent}
                       className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2"
                     >
                       <Save className="w-4 h-4 mr-2" />
@@ -664,6 +689,7 @@ export default function AdminPage() {
 
                 <div className="flex justify-end mt-6">
                   <Button
+                    onClick={handleSaveCompanyRules}
                     className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2"
                   >
                     <Save className="w-4 h-4 mr-2" />

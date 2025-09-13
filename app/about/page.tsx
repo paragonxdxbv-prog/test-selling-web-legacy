@@ -5,9 +5,11 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Upload, ShoppingBag, Heart, Search, Users, Award, Globe, Target } from "lucide-react"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
+import { getDocument } from "@/lib/firebase-utils"
 
 export default function AboutPage() {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
+  const [companyRules, setCompanyRules] = useState<string[]>([])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,12 +18,29 @@ export default function AboutPage() {
     return () => clearTimeout(timer)
   }, [])
 
-  const stats = [
-    { number: "10M+", label: "CUSTOMERS WORLDWIDE" },
-    { number: "50+", label: "COUNTRIES SERVED" },
-    { number: "15+", label: "YEARS EXPERIENCE" },
-    { number: "99%", label: "CUSTOMER SATISFACTION" },
-  ]
+  useEffect(() => {
+    loadCompanyRules()
+  }, [])
+
+  const loadCompanyRules = async () => {
+    try {
+      const rulesData = await getDocument('content', 'rules')
+      if (rulesData && rulesData.rules) {
+        setCompanyRules(rulesData.rules)
+      }
+    } catch (error) {
+      console.error('Error loading company rules:', error)
+      // Fallback to default rules
+      setCompanyRules([
+        "All products must meet our premium quality standards before listing",
+        "Customer data privacy and security is our top priority",
+        "We maintain sustainable and ethical sourcing practices",
+        "Innovation and customer experience drive all our decisions",
+        "We provide honest and transparent product descriptions"
+      ])
+    }
+  }
+
 
   const values = [
     {
@@ -128,37 +147,17 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Stats Section */}
+
+          {/* Story Section */}
           <div
-            className={`grid grid-cols-2 md:grid-cols-4 gap-8 mb-20 transition-all duration-700 ${
+            className={`mb-20 transition-all duration-700 ${
               isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
             style={{ transitionDelay: "500ms" }}
           >
-            {stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="text-center"
-                style={{ transitionDelay: `${600 + index * 100}ms` }}
-              >
-                <div className="text-3xl md:text-4xl font-bold mb-2">{stat.number}</div>
-                <div className="text-xs text-gray-500 uppercase tracking-widest font-mono">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Story Section */}
-          <div
-            className={`grid md:grid-cols-2 gap-16 items-center mb-20 transition-all duration-700 ${
-              isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-            }`}
-            style={{ transitionDelay: "700ms" }}
-          >
-            <div>
-              <h2 className="text-2xl font-medium tracking-widest uppercase mb-6">OUR STORY</h2>
-              <div className="space-y-4 text-gray-700 leading-relaxed">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-2xl font-medium tracking-widest uppercase mb-8">OUR STORY</h2>
+              <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
                 <p>
                   Founded in 2010, LEGACY emerged from a simple yet revolutionary idea: what if technology could make fashion more personal, more accessible, and more exciting than ever before?
                 </p>
@@ -168,12 +167,6 @@ export default function AboutPage() {
                 <p>
                   Today, we're proud to be at the forefront of AI-powered fashion technology, serving millions of customers worldwide with our innovative try-on experiences and premium product offerings.
                 </p>
-              </div>
-            </div>
-            <div className="bg-gray-100 h-80 flex items-center justify-center">
-              <div className="text-center text-gray-500">
-                <div className="text-6xl mb-4">📸</div>
-                <p className="text-sm font-mono tracking-widest uppercase">OUR FOUNDING TEAM</p>
               </div>
             </div>
           </div>
@@ -205,7 +198,7 @@ export default function AboutPage() {
 
           {/* Mission Section */}
           <div
-            className={`bg-gray-50 p-12 text-center transition-all duration-700 ${
+            className={`bg-gray-50 p-12 text-center mb-20 transition-all duration-700 ${
               isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
             style={{ transitionDelay: "1100ms" }}
@@ -215,6 +208,34 @@ export default function AboutPage() {
               TO DEMOCRATIZE FASHION BY MAKING IT MORE ACCESSIBLE, PERSONAL, AND SUSTAINABLE THROUGH INNOVATIVE TECHNOLOGY, WHILE MAINTAINING THE HIGHEST STANDARDS OF QUALITY AND CUSTOMER EXPERIENCE.
             </p>
           </div>
+
+          {/* Company Rules Section */}
+          {companyRules.length > 0 && (
+            <div
+              className={`mb-20 transition-all duration-700 ${
+                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+              }`}
+              style={{ transitionDelay: "1200ms" }}
+            >
+              <h2 className="text-2xl font-medium tracking-widest uppercase mb-12 text-center">COMPANY RULES</h2>
+              <div className="max-w-4xl mx-auto">
+                <div className="grid gap-6">
+                  {companyRules.map((rule, index) => (
+                    <div
+                      key={index}
+                      className="bg-gray-50 p-6 border-l-4 border-black"
+                      style={{ transitionDelay: `${1300 + index * 100}ms` }}
+                    >
+                      <div className="flex items-start space-x-4">
+                        <span className="text-black font-bold text-lg">{index + 1}.</span>
+                        <p className="text-gray-700 leading-relaxed">{rule}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
