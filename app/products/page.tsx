@@ -3,9 +3,10 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Upload, ShoppingBag, Heart, Search, Filter, Grid, List } from "lucide-react"
+import { Search, Filter, Grid, List } from "lucide-react"
 import { ImageWithLoading } from "@/components/image-with-loading"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
+import { Navigation } from "@/components/navigation"
 import { logEvent, getProducts } from "@/lib/firebase-utils"
 
 interface Product {
@@ -107,55 +108,12 @@ export default function ProductsPage() {
 
   return (
     <div
-      className={`min-h-screen bg-white text-black font-mono transition-all duration-1000 ${
+      className={`min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white font-mono transition-all duration-1000 ${
         isPageLoaded ? "opacity-100" : "opacity-0"
       }`}
     >
       <FirebaseAnalytics />
-      {/* Header */}
-      <header
-        className={`px-8 py-6 border-b border-gray-200 bg-gray-50/92 transition-all duration-700 ${
-          isPageLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <a href="/home" className="flex items-center space-x-3">
-              <img src="/acme-logo.png" alt="LEGACY" className="h-10 w-auto" />
-              <span className="text-lg font-medium tracking-widest uppercase">LEGACY</span>
-            </a>
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-12">
-            <a
-              href="/home"
-              className={`text-black hover:text-gray-500 text-xs font-medium tracking-widest uppercase transition-all duration-500 ${
-                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              }`}
-              style={{ transitionDelay: "200ms" }}
-            >
-              HOME
-            </a>
-            <a
-              href="/about"
-              className={`text-black hover:text-gray-500 text-xs font-medium tracking-widest uppercase transition-all duration-500 ${
-                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              }`}
-              style={{ transitionDelay: "300ms" }}
-            >
-              ABOUT
-            </a>
-          </nav>
-
-          <div
-            className={`flex items-center space-x-6 transition-all duration-700 ${
-              isPageLoaded ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
-            }`}
-            style={{ transitionDelay: "400ms" }}
-          >
-          </div>
-        </div>
-      </header>
+      <Navigation isPageLoaded={isPageLoaded} currentPage="products" />
 
       {/* Page Title */}
       <section className="px-8 py-12">
@@ -171,8 +129,8 @@ export default function ProductsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className={`border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-medium tracking-widest uppercase bg-transparent px-4 transition-all duration-300 ${
-                  viewMode === "grid" ? "bg-black text-white" : ""
+                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-4 transition-all duration-300 ${
+                  viewMode === "grid" ? "bg-black dark:bg-white text-white dark:text-black" : ""
                 }`}
                 onClick={() => handleViewModeChange("grid")}
               >
@@ -182,8 +140,8 @@ export default function ProductsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className={`border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-medium tracking-widest uppercase bg-transparent px-4 transition-all duration-300 ${
-                  viewMode === "list" ? "bg-black text-white" : ""
+                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-4 transition-all duration-300 ${
+                  viewMode === "list" ? "bg-black dark:bg-white text-white dark:text-black" : ""
                 }`}
                 onClick={() => handleViewModeChange("list")}
               >
@@ -201,35 +159,35 @@ export default function ProductsPage() {
             style={{ transitionDelay: "350ms" }}
           >
             {/* Search Bar */}
-            <div className="flex items-center bg-gray-50 rounded-none px-4 py-3 border border-gray-200 flex-1">
-              <Search className="w-4 h-4 text-gray-400 mr-3" />
+            <div className="flex items-center bg-gray-50 dark:bg-gray-800 rounded-none px-4 py-3 border border-gray-200 dark:border-gray-700 flex-1">
+              <Search className="w-4 h-4 text-gray-400 dark:text-gray-500 mr-3" />
               <input
                 type="text"
                 placeholder="SEARCH PRODUCTS..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent text-sm outline-none placeholder-gray-400 w-full font-mono tracking-wider"
+                onChange={(e: any) => setSearchQuery(e.target.value)}
+                className="bg-transparent text-sm outline-none placeholder-gray-400 dark:placeholder-gray-500 w-full font-mono tracking-wider text-black dark:text-white"
               />
             </div>
 
             {/* Price Range Filter */}
-            <div className="flex items-center gap-4 bg-gray-50 rounded-none px-4 py-3 border border-gray-200">
-              <Filter className="w-4 h-4 text-gray-400" />
-              <span className="text-xs font-medium tracking-widest uppercase text-gray-600">PRICE:</span>
+            <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800 rounded-none px-4 py-3 border border-gray-200 dark:border-gray-700">
+              <Filter className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+              <span className="text-xs font-medium tracking-widest uppercase text-gray-600 dark:text-gray-400">PRICE:</span>
               <input
                 type="number"
                 placeholder="MIN"
                 value={priceRange.min}
-                onChange={(e) => setPriceRange(prev => ({ ...prev, min: parseInt(e.target.value) || 0 }))}
-                className="bg-transparent text-xs outline-none placeholder-gray-400 w-16 font-mono tracking-wider border-r border-gray-300 pr-2"
+                onChange={(e: any) => setPriceRange((prev: any) => ({ ...prev, min: parseInt(e.target.value) || 0 }))}
+                className="bg-transparent text-xs outline-none placeholder-gray-400 dark:placeholder-gray-500 w-16 font-mono tracking-wider border-r border-gray-300 dark:border-gray-600 pr-2 text-black dark:text-white"
               />
-              <span className="text-gray-400">-</span>
+              <span className="text-gray-400 dark:text-gray-500">-</span>
               <input
                 type="number"
                 placeholder="MAX"
                 value={priceRange.max}
-                onChange={(e) => setPriceRange(prev => ({ ...prev, max: parseInt(e.target.value) || 1000 }))}
-                className="bg-transparent text-xs outline-none placeholder-gray-400 w-16 font-mono tracking-wider"
+                onChange={(e: any) => setPriceRange((prev: any) => ({ ...prev, max: parseInt(e.target.value) || 1000 }))}
+                className="bg-transparent text-xs outline-none placeholder-gray-400 dark:placeholder-gray-500 w-16 font-mono tracking-wider text-black dark:text-white"
               />
             </div>
           </div>
@@ -245,8 +203,8 @@ export default function ProductsPage() {
               <Button
                 key={category}
                 variant="outline"
-                className={`border-gray-300 text-gray-600 hover:bg-gray-100 text-xs font-medium tracking-widest uppercase bg-transparent px-6 transition-all duration-300 ${
-                  selectedCategory === category ? "bg-black text-white border-black" : ""
+                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-6 transition-all duration-300 ${
+                  selectedCategory === category ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white" : ""
                 }`}
                 onClick={() => handleCategoryFilter(category)}
                 style={{ transitionDelay: `${500 + index * 100}ms` }}
@@ -259,8 +217,8 @@ export default function ProductsPage() {
           {/* Products Grid */}
           {loading ? (
             <div className="text-center py-16">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black mx-auto mb-4"></div>
-              <p className="text-sm font-mono tracking-widest uppercase text-gray-500">LOADING PRODUCTS...</p>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white mx-auto mb-4"></div>
+              <p className="text-sm font-mono tracking-widest uppercase text-gray-500 dark:text-gray-400">LOADING PRODUCTS...</p>
             </div>
           ) : (
             <div className={`grid gap-8 transition-all duration-700 ${
@@ -291,8 +249,8 @@ export default function ProductsPage() {
                 <div className={`space-y-3 ${viewMode === "list" ? "flex-1" : ""}`}>
                   <div>
                     <h3 className="text-sm font-medium tracking-wide">{product.name}</h3>
-                    <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{product.category}</p>
-                    <p className="text-xs text-gray-600 mt-2 line-clamp-2">{product.description}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-mono">{product.category}</p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">{product.description}</p>
                   </div>
                   <div className={`flex items-center justify-between ${viewMode === "list" ? "mt-4" : ""}`}>
                     <div className="flex flex-col">
@@ -307,7 +265,7 @@ export default function ProductsPage() {
                       )}
                     </div>
                     <button 
-                      className="bg-white text-black border-2 border-black px-6 py-2 text-xs font-medium tracking-widest uppercase cursor-pointer hover:bg-black hover:text-white transition-all duration-300 hover:scale-105 whitespace-nowrap"
+                      className="bg-white dark:bg-gray-900 text-black dark:text-white border-2 border-black dark:border-white px-6 py-2 text-xs font-medium tracking-widest uppercase cursor-pointer hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 hover:scale-105 whitespace-nowrap"
                       onClick={() => {
                         if (product.buyUrl) {
                           // Log the purchase attempt
@@ -342,7 +300,7 @@ export default function ProductsPage() {
               }`}
               style={{ transitionDelay: "600ms" }}
             >
-              <p className="text-gray-500 text-sm font-mono tracking-widest uppercase">
+              <p className="text-gray-500 dark:text-gray-400 text-sm font-mono tracking-widest uppercase">
                 NO PRODUCTS FOUND
               </p>
             </div>
@@ -353,16 +311,16 @@ export default function ProductsPage() {
 
       {/* Footer */}
       <footer
-        className={`border-t border-gray-200 px-8 py-16 bg-gray-50 transition-all duration-700 ${
+        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-gray-800 transition-all duration-700 ${
           isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
         }`}
         style={{ transitionDelay: "1000ms" }}
       >
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center mb-6">
-            <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40" />
+            <img src="/legacy.png" alt="LEGACY" className="h-8 w-auto opacity-40" />
           </div>
-          <p className="text-gray-400 text-xs font-mono tracking-widest uppercase">
+          <p className="text-gray-400 dark:text-gray-500 text-xs font-mono tracking-widest uppercase">
             © 2025 LEGACY, INC. ALL RIGHTS RESERVED.
           </p>
         </div>

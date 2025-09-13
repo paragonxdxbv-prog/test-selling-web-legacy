@@ -5,10 +5,11 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Upload, ShoppingBag, Heart, Search, Plus, Edit, Trash2, Save, X } from "lucide-react"
+import { Plus, Edit, Trash2, Save, X } from "lucide-react"
 import { ImageWithLoading } from "@/components/image-with-loading"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
 import { AdminAuth } from "@/components/admin-auth"
+import { Navigation } from "@/components/navigation"
 import { logEvent } from "@/lib/firebase-utils"
 import { getProducts, addProduct, updateProduct, deleteProduct, getAboutContent, getCompanyRules, saveAboutContent, saveCompanyRules } from "@/lib/firebase-utils"
 
@@ -211,80 +212,34 @@ export default function AdminPage() {
 
   return (
     <div
-      className={`min-h-screen bg-white text-black font-mono transition-all duration-1000 ${
+      className={`min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white font-mono transition-all duration-1000 ${
         isPageLoaded ? "opacity-100" : "opacity-0"
       }`}
     >
       <AdminAuth />
       <FirebaseAnalytics />
+      <Navigation isPageLoaded={isPageLoaded} currentPage="admin" />
       
-      {/* Header */}
-      <header
-        className={`px-8 py-6 border-b border-gray-200 transition-all duration-700 ${
-          isPageLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
-        }`}
-      >
+      {/* Admin Header */}
+      <div className="px-8 py-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <a href="/home">
-              <img src="/acme-logo.png" alt="LEGACY" className="h-10 w-auto" />
-            </a>
-            <span className="ml-4 text-xs font-medium tracking-widest uppercase text-gray-500">ADMIN PANEL</span>
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-12">
-            <a
-              href="/home"
-              className={`text-black hover:text-gray-500 text-xs font-medium tracking-widest uppercase transition-all duration-500 ${
-                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              }`}
-              style={{ transitionDelay: "200ms" }}
-            >
-              HOME
-            </a>
-            <a
-              href="/products"
-              className={`text-black hover:text-gray-500 text-xs font-medium tracking-widest uppercase transition-all duration-500 ${
-                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              }`}
-              style={{ transitionDelay: "300ms" }}
-            >
-              PRODUCTS
-            </a>
-            <a
-              href="/about"
-              className={`text-black hover:text-gray-500 text-xs font-medium tracking-widest uppercase transition-all duration-500 ${
-                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              }`}
-              style={{ transitionDelay: "400ms" }}
-            >
-              ABOUT
-            </a>
-          </nav>
-
-          <div
-            className={`flex items-center space-x-6 transition-all duration-700 ${
-              isPageLoaded ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
-            }`}
-            style={{ transitionDelay: "400ms" }}
+          <span className="text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400">ADMIN PANEL</span>
+          <Button
+            onClick={handleAddProduct}
+            className="bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2 transition-all duration-300 hover:scale-105"
           >
-            <Button
-              onClick={handleAddProduct}
-              className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2 transition-all duration-300 hover:scale-105"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              ADD PRODUCT
-            </Button>
-          </div>
+            <Plus className="w-4 h-4 mr-2" />
+            ADD PRODUCT
+          </Button>
         </div>
-      </header>
+      </div>
 
       {/* Main Content */}
       <section className="px-8 py-16">
         <div className="max-w-7xl mx-auto">
           {/* Tab Navigation */}
           <div
-            className={`flex border-b border-gray-200 mb-12 transition-all duration-700 ${
+            className={`flex border-b border-gray-200 dark:border-gray-700 mb-12 transition-all duration-700 ${
               isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
             style={{ transitionDelay: "300ms" }}
@@ -293,8 +248,8 @@ export default function AdminPage() {
               onClick={() => setActiveTab("products")}
               className={`px-6 py-3 text-sm font-medium tracking-widest uppercase transition-all duration-300 ${
                 activeTab === "products"
-                  ? "border-b-2 border-black text-black"
-                  : "text-gray-500 hover:text-black"
+                  ? "border-b-2 border-black dark:border-white text-black dark:text-white"
+                  : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white"
               }`}
             >
               PRODUCTS ({products.length})
@@ -303,8 +258,8 @@ export default function AdminPage() {
               onClick={() => setActiveTab("about")}
               className={`px-6 py-3 text-sm font-medium tracking-widest uppercase transition-all duration-300 ${
                 activeTab === "about"
-                  ? "border-b-2 border-black text-black"
-                  : "text-gray-500 hover:text-black"
+                  ? "border-b-2 border-black dark:border-white text-black dark:text-white"
+                  : "text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white"
               }`}
             >
               ABOUT PAGE
@@ -649,37 +604,42 @@ export default function AdminPage() {
                     <label className="block text-sm font-medium tracking-widest uppercase mb-4">
                       OUR VALUES (4 VALUES)
                     </label>
-                    {aboutContent.values && aboutContent.values.map((value, index) => (
-                      <div key={index} className="mb-6 p-4 border border-gray-200 bg-white">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-xs text-gray-500 mb-1">Value Title</label>
+                    {aboutContent?.values && aboutContent.values.length > 0 ? (
+                      aboutContent.values.map((value, index) => (
+                        <div key={index} className="mb-4">
+                          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Value {index + 1}</label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Input
+                              placeholder="Title"
                               value={value.title}
                               onChange={(e) => {
                                 const newValues = [...aboutContent.values]
                                 newValues[index] = { ...newValues[index], title: e.target.value }
-                                setAboutContent(prev => ({ ...prev, values: newValues }))
+                                setAboutContent((prev) => ({ ...prev, values: newValues }))
                               }}
-                              className="border-gray-300 focus:border-black"
+                              className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-gray-800 text-black dark:text-white"
                             />
-                          </div>
-                          <div>
-                            <label className="block text-xs text-gray-500 mb-1">Value Description</label>
                             <Textarea
+                              placeholder="Description"
                               value={value.description}
                               onChange={(e) => {
                                 const newValues = [...aboutContent.values]
                                 newValues[index] = { ...newValues[index], description: e.target.value }
-                                setAboutContent(prev => ({ ...prev, values: newValues }))
+                                setAboutContent((prev) => ({ ...prev, values: newValues }))
                               }}
-                              rows={3}
-                              className="border-gray-300 focus:border-black"
+                              rows={2}
+                              className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-gray-800 text-black dark:text-white"
                             />
                           </div>
                         </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8">
+                        <p className="text-gray-500 dark:text-gray-400 text-sm font-mono tracking-wider">
+                          No values found. Add some values to display them.
+                        </p>
                       </div>
-                    ))}
+                    )}
                   </div>
 
                   <div className="flex justify-end">
@@ -703,7 +663,7 @@ export default function AdminPage() {
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-medium tracking-widest uppercase">COMPANY RULES</h2>
                   <Button
-                    onClick={() => setCompanyRules(prev => [...prev, ""])}
+                    onClick={() => setCompanyRules((prev) => [...prev, ""])}
                     className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-4 py-2"
                   >
                     <Plus className="w-4 h-4 mr-2" />
@@ -713,29 +673,31 @@ export default function AdminPage() {
                 
                 <div className="space-y-4">
                   {companyRules.map((rule, index) => (
-                    <div key={index} className="flex items-center space-x-4">
-                      <div className="flex-1">
-                        <Input
+                    <div key={index} className="mb-4">
+                      <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Rule {index + 1}</label>
+                      <div className="flex gap-2">
+                        <Textarea
                           value={rule}
                           onChange={(e) => {
                             const newRules = [...companyRules]
                             newRules[index] = e.target.value
                             setCompanyRules(newRules)
                           }}
-                          placeholder={`Company rule ${index + 1}`}
-                          className="border-gray-300 focus:border-black"
+                          rows={2}
+                          className="flex-1 border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-gray-800 text-black dark:text-white"
                         />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const newRules = companyRules.filter((_, i) => i !== index)
+                            setCompanyRules(newRules)
+                          }}
+                          className="border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
                       </div>
-                      <Button
-                        size="sm"
-                        onClick={() => {
-                          const newRules = companyRules.filter((_, i) => i !== index)
-                          setCompanyRules(newRules)
-                        }}
-                        className="bg-red-500 text-white hover:bg-red-600 border-0 p-2 h-8 w-8"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
                     </div>
                   ))}
                 </div>

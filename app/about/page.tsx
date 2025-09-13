@@ -1,9 +1,11 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { ArrowRight } from "lucide-react"
 import { FirebaseAnalytics } from "@/components/firebase-analytics"
+import { Navigation } from "@/components/navigation"
 import { getAboutContent, getCompanyRules } from "@/lib/firebase-utils"
 import { Upload, ShoppingBag, Heart, Search, Users, Award, Globe, Target } from "lucide-react"
 
@@ -107,57 +109,12 @@ export default function AboutPage() {
 
   return (
     <div
-      className={`min-h-screen bg-white text-black font-mono transition-all duration-1000 ${
+      className={`min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white font-mono transition-all duration-1000 ${
         isPageLoaded ? "opacity-100" : "opacity-0"
       }`}
     >
       <FirebaseAnalytics />
-      {/* Header */}
-      <header
-        className={`px-8 py-6 border-b border-gray-200 bg-gray-50/92 transition-all duration-700 ${
-          isPageLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <a href="/home" className="flex items-center space-x-3">
-              <img src="/acme-logo.png" alt="LEGACY" className="h-10 w-auto" />
-              <span className="text-lg font-medium tracking-widest uppercase">LEGACY</span>
-            </a>
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-12">
-            <a
-              href="/home"
-              className={`text-black hover:text-gray-500 text-xs font-medium tracking-widest uppercase transition-all duration-500 ${
-                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              }`}
-              style={{ transitionDelay: "200ms" }}
-            >
-              HOME
-            </a>
-            <a
-              href="/products"
-              className={`text-black hover:text-gray-500 text-xs font-medium tracking-widest uppercase transition-all duration-500 ${
-                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-              }`}
-              style={{ transitionDelay: "300ms" }}
-            >
-              PRODUCTS
-            </a>
-          </nav>
-
-          <div
-            className={`flex items-center space-x-6 transition-all duration-700 ${
-              isPageLoaded ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
-            }`}
-            style={{ transitionDelay: "400ms" }}
-          >
-            <ShoppingBag className="w-5 h-5 text-black" />
-            <Heart className="w-5 h-5 text-black" />
-          </div>
-        </div>
-      </header>
+      <Navigation isPageLoaded={isPageLoaded} currentPage="about" />
 
       {/* Hero Section */}
       <section className="px-8 py-16">
@@ -171,7 +128,7 @@ export default function AboutPage() {
             <h1 className="text-4xl md:text-6xl font-light tracking-widest uppercase mb-6">
               {aboutContent.heroTitle}
             </h1>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
               {aboutContent.heroDescription}
             </p>
           </div>
@@ -186,7 +143,7 @@ export default function AboutPage() {
           >
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-2xl font-medium tracking-widest uppercase mb-8">{aboutContent.storyTitle}</h2>
-              <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
+              <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
                 {aboutContent.storyContent && aboutContent.storyContent.length > 0 ? (
                   aboutContent.storyContent.map((paragraph: string, index: number) => (
                     <p key={index}>
@@ -215,11 +172,11 @@ export default function AboutPage() {
                   className="text-center"
                   style={{ transitionDelay: `${1000 + index * 100}ms` }}
                 >
-                  <div className="flex justify-center mb-4 text-black">
+                  <div className="flex justify-center mb-4 text-black dark:text-white">
                     {value.icon}
                   </div>
                   <h3 className="text-lg font-medium tracking-widest uppercase mb-4">{value.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{value.description}</p>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{value.description}</p>
                 </div>
               ))}
             </div>
@@ -227,13 +184,13 @@ export default function AboutPage() {
 
           {/* Mission Section */}
           <div
-            className={`bg-gray-50 p-12 text-center mb-20 transition-all duration-700 ${
+            className={`bg-gray-50 dark:bg-gray-800 p-12 text-center mb-20 transition-all duration-700 ${
               isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
             style={{ transitionDelay: "1100ms" }}
           >
             <h2 className="text-2xl font-medium tracking-widest uppercase mb-6">{aboutContent.missionTitle}</h2>
-            <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
               {aboutContent.missionContent}
             </p>
           </div>
@@ -252,12 +209,12 @@ export default function AboutPage() {
                   {companyRules.map((rule, index) => (
                     <div
                       key={index}
-                      className="bg-gray-50 p-6 border-l-4 border-black"
+                      className="bg-gray-50 dark:bg-gray-700 p-6 border-l-4 border-black dark:border-white"
                       style={{ transitionDelay: `${1300 + index * 100}ms` }}
                     >
                       <div className="flex items-start space-x-4">
-                        <span className="text-black font-bold text-lg">{index + 1}.</span>
-                        <p className="text-gray-700 leading-relaxed">{rule}</p>
+                        <span className="text-black dark:text-white font-bold text-lg">{index + 1}.</span>
+                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{rule}</p>
                       </div>
                     </div>
                   ))}
@@ -271,16 +228,16 @@ export default function AboutPage() {
 
       {/* Footer */}
       <footer
-        className={`border-t border-gray-200 px-8 py-16 bg-gray-50 transition-all duration-700 ${
+        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-gray-800 transition-all duration-700 ${
           isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
         }`}
         style={{ transitionDelay: "1300ms" }}
       >
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex justify-center mb-6">
-            <img src="/acme-logo.png" alt="LEGACY" className="h-8 w-auto opacity-40" />
+            <img src="/legacy.png" alt="LEGACY" className="h-8 w-auto opacity-40" />
           </div>
-          <p className="text-gray-400 text-xs font-mono tracking-widest uppercase">
+          <p className="text-gray-400 dark:text-gray-500 text-xs font-mono tracking-widest uppercase">
             © 2025 LEGACY, INC. ALL RIGHTS RESERVED.
           </p>
         </div>
