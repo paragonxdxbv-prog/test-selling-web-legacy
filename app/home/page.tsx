@@ -83,19 +83,6 @@ export default function HomePage() {
               }`}
               style={{ transitionDelay: "400ms" }}
             >
-              <div className="hidden md:flex items-center bg-gray-50 rounded-none px-4 py-2 border border-gray-200">
-                <Search className="w-4 h-4 text-gray-400 mr-3" />
-                <input
-                  type="text"
-                  placeholder="SEARCH"
-                  className="bg-transparent text-xs outline-none placeholder-gray-400 w-24 font-mono tracking-wider"
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      window.location.href = '/products'
-                    }
-                  }}
-                />
-              </div>
             </div>
           </div>
         </header>

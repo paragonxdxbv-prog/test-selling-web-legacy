@@ -153,8 +153,6 @@ export default function ProductsPage() {
             }`}
             style={{ transitionDelay: "400ms" }}
           >
-            <ShoppingBag className="w-5 h-5 text-black" />
-            <Heart className="w-5 h-5 text-black" />
           </div>
         </div>
       </header>

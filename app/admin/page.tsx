@@ -649,7 +649,7 @@ export default function AdminPage() {
                     <label className="block text-sm font-medium tracking-widest uppercase mb-4">
                       OUR VALUES (4 VALUES)
                     </label>
-                    {aboutContent.values.map((value, index) => (
+                    {aboutContent.values && aboutContent.values.map((value, index) => (
                       <div key={index} className="mb-6 p-4 border border-gray-200 bg-white">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>

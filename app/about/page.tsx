@@ -97,11 +97,13 @@ export default function AboutPage() {
     }
   }
 
-  const values = aboutContent.values.map((value) => ({
-    icon: getValueIcon(value.title),
-    title: value.title,
-    description: value.description,
-  }))
+  const values = aboutContent.values && aboutContent.values.length > 0 
+    ? aboutContent.values.map((value: any) => ({
+        icon: getValueIcon(value.title),
+        title: value.title,
+        description: value.description,
+      }))
+    : []
 
   return (
     <div
@@ -185,11 +187,15 @@ export default function AboutPage() {
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-2xl font-medium tracking-widest uppercase mb-8">{aboutContent.storyTitle}</h2>
               <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
-                {aboutContent.storyContent.map((paragraph: string, index: number) => (
-                  <p key={index}>
-                    {paragraph}
-                  </p>
-                ))}
+                {aboutContent.storyContent && aboutContent.storyContent.length > 0 ? (
+                  aboutContent.storyContent.map((paragraph: string, index: number) => (
+                    <p key={index}>
+                      {paragraph}
+                    </p>
+                  ))
+                ) : (
+                  <p>Loading story content...</p>
+                )}
               </div>
             </div>
           </div>
