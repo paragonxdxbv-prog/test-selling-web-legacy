@@ -103,9 +103,30 @@ export default function AdminPage() {
   const loadCompanyRules = async () => {
     try {
       const rules = await getCompanyRules()
-      setCompanyRules(rules)
+      if (rules && rules.length > 0) {
+        setCompanyRules(rules)
+      } else {
+        // Fallback to default rules if none exist
+        const defaultRules = [
+          "All products must meet our premium quality standards before listing",
+          "Customer data privacy and security is our top priority",
+          "We maintain sustainable and ethical sourcing practices",
+          "Innovation and customer experience drive all our decisions",
+          "We provide honest and transparent product descriptions"
+        ]
+        setCompanyRules(defaultRules)
+      }
     } catch (error) {
       console.error('Error loading company rules:', error)
+      // Fallback to default rules on error
+      const defaultRules = [
+        "All products must meet our premium quality standards before listing",
+        "Customer data privacy and security is our top priority",
+        "We maintain sustainable and ethical sourcing practices",
+        "Innovation and customer experience drive all our decisions",
+        "We provide honest and transparent product descriptions"
+      ]
+      setCompanyRules(defaultRules)
     }
   }
 
@@ -287,7 +308,7 @@ export default function AdminPage() {
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
               <div className="bg-white p-8 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-medium tracking-widest uppercase">
+                  <h2 className="text-xl font-medium tracking-widest uppercase text-black dark:text-white">
                     {editingProduct ? 'EDIT PRODUCT' : 'ADD PRODUCT'}
                   </h2>
                   <Button
@@ -302,7 +323,7 @@ export default function AdminPage() {
 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       PRODUCT NAME
                     </label>
                     <Input
@@ -316,7 +337,7 @@ export default function AdminPage() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                         CURRENT PRICE
                       </label>
                       <Input
@@ -328,7 +349,7 @@ export default function AdminPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                         ORIGINAL PRICE (OPTIONAL)
                       </label>
                       <Input
@@ -343,7 +364,7 @@ export default function AdminPage() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                         DISCOUNT % (OPTIONAL)
                       </label>
                       <Input
@@ -356,14 +377,14 @@ export default function AdminPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                         CATEGORY
                       </label>
                       <select
                         name="category"
                         value={formData.category}
                         onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 focus:border-black focus:outline-none text-sm"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white focus:outline-none text-sm bg-white dark:bg-white text-black dark:text-black"
                       >
                         <option value="">Select category</option>
                         {categories.map(category => (
@@ -374,7 +395,7 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       IMAGE URL
                     </label>
                     <Input
@@ -387,7 +408,7 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       DESCRIPTION
                     </label>
                     <Textarea
@@ -401,7 +422,7 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       BUY URL (OPTIONAL)
                     </label>
                     <Input
@@ -529,7 +550,7 @@ export default function AdminPage() {
                 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       HERO TITLE
                     </label>
                     <Input
@@ -540,7 +561,7 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       HERO DESCRIPTION
                     </label>
                     <Textarea
@@ -552,7 +573,7 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       STORY TITLE
                     </label>
                     <Input
@@ -563,12 +584,12 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       STORY CONTENT (3 PARAGRAPHS)
                     </label>
                     {aboutContent.storyContent.map((paragraph, index) => (
                       <div key={index} className="mb-4">
-                        <label className="block text-xs text-gray-500 mb-1">Paragraph {index + 1}</label>
+                        <label className="block text-xs text-gray-500 dark:text-white mb-1">Paragraph {index + 1}</label>
                         <Textarea
                           value={paragraph}
                           onChange={(e) => {
@@ -584,7 +605,7 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       MISSION TITLE
                     </label>
                     <Input
@@ -595,7 +616,7 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2 text-black dark:text-white">
                       MISSION CONTENT
                     </label>
                     <Textarea
@@ -607,7 +628,7 @@ export default function AdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium tracking-widest uppercase mb-4">
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-4 text-black dark:text-white">
                       OUR VALUES (4 VALUES)
                     </label>
                     {aboutContent?.values && aboutContent.values.length > 0 ? (
@@ -680,7 +701,7 @@ export default function AdminPage() {
                 <div className="space-y-4">
                   {companyRules.map((rule, index) => (
                     <div key={index} className="mb-4">
-                      <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">Rule {index + 1}</label>
+                      <label className="block text-xs text-gray-500 dark:text-white mb-1">Rule {index + 1}</label>
                       <div className="flex gap-2">
                         <Textarea
                           value={rule}
