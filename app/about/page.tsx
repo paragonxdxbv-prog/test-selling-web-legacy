@@ -86,26 +86,18 @@ export default function AboutPage() {
 
   const getValueIcon = (title: string) => {
     switch (title.toUpperCase()) {
-      case "INNOVATION":
+      case 'INNOVATION':
         return <Target className="w-8 h-8" />
-      case "COMMUNITY":
+      case 'COMMUNITY':
         return <Users className="w-8 h-8" />
-      case "QUALITY":
+      case 'QUALITY':
         return <Award className="w-8 h-8" />
-      case "SUSTAINABILITY":
+      case 'SUSTAINABILITY':
         return <Globe className="w-8 h-8" />
       default:
-        return <Target className="w-8 h-8" />
+        return <Heart className="w-8 h-8" />
     }
   }
-
-  const values = aboutContent.values && aboutContent.values.length > 0 
-    ? aboutContent.values.map((value: any) => ({
-        icon: getValueIcon(value.title),
-        title: value.title,
-        description: value.description,
-      }))
-    : []
 
   return (
     <div
@@ -166,14 +158,14 @@ export default function AboutPage() {
           >
             <h2 className="text-2xl font-medium tracking-widest uppercase mb-12 text-center">OUR VALUES</h2>
             <div className="grid md:grid-cols-2 gap-12">
-              {values.map((value, index) => (
+              {aboutContent.values.map((value: any, index: number) => (
                 <div
                   key={value.title}
                   className="text-center"
                   style={{ transitionDelay: `${1000 + index * 100}ms` }}
                 >
                   <div className="flex justify-center mb-4 text-black dark:text-white">
-                    {value.icon}
+                    {getValueIcon(value.title)}
                   </div>
                   <h3 className="text-lg font-medium tracking-widest uppercase mb-4">{value.title}</h3>
                   <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{value.description}</p>

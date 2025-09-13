@@ -88,7 +88,13 @@ export default function AdminPage() {
   const loadAboutContent = async () => {
     try {
       const content = await getAboutContent()
-      setAboutContent(content)
+      if (content) {
+        setAboutContent(prevContent => ({
+          ...prevContent,
+          ...content,
+          values: content.values && content.values.length > 0 ? content.values : prevContent.values
+        }))
+      }
     } catch (error) {
       console.error('Error loading about content:', error)
     }
@@ -212,7 +218,7 @@ export default function AdminPage() {
 
   return (
     <div
-      className={`min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white font-mono transition-all duration-1000 ${
+      className={`min-h-screen bg-white dark:bg-black text-black dark:text-white font-mono transition-all duration-1000 ${
         isPageLoaded ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -221,7 +227,7 @@ export default function AdminPage() {
       <Navigation isPageLoaded={isPageLoaded} currentPage="admin" />
       
       {/* Admin Header */}
-      <div className="px-8 py-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800">
+      <div className="px-8 py-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-black">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <span className="text-xs font-medium tracking-widest uppercase text-gray-500 dark:text-gray-400">ADMIN PANEL</span>
           <Button
@@ -719,7 +725,7 @@ export default function AdminPage() {
 
       {/* Footer */}
       <footer
-        className={`border-t border-gray-200 px-8 py-16 bg-gray-50 transition-all duration-700 ${
+        className={`border-t border-gray-200 dark:border-gray-800 px-8 py-16 bg-gray-50 dark:bg-black transition-all duration-700 ${
           isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
         }`}
         style={{ transitionDelay: "1000ms" }}
