@@ -19,9 +19,10 @@ interface Product {
   category: string
   image: string
   description: string
+  buyUrl?: string
 }
 
-const categories = ["RUNNING SHOES", "LIFESTYLE SHOES", "MEN'S SHIRTS", "MEN'S PANTS", "MEN'S SHORTS", "MEN'S JACKETS", "MEN'S HOODIE", "ACCESSORIES"]
+const categories = ["DIGITAL PRODUCTS", "RUNNING SHOES", "LIFESTYLE SHOES", "MEN'S SHIRTS", "MEN'S PANTS", "MEN'S SHORTS", "MEN'S JACKETS", "MEN'S HOODIE", "ACCESSORIES"]
 
 export default function AdminPage() {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
@@ -34,7 +35,8 @@ export default function AdminPage() {
     price: "",
     category: "",
     image: "",
-    description: ""
+    description: "",
+    buyUrl: ""
   })
 
   useEffect(() => {
@@ -75,7 +77,8 @@ export default function AdminPage() {
       price: "",
       category: "",
       image: "",
-      description: ""
+      description: "",
+      buyUrl: ""
     })
     setShowForm(true)
     logEvent('admin_action', { action: 'add_product_form' })
@@ -88,7 +91,8 @@ export default function AdminPage() {
       price: product.price,
       category: product.category,
       image: product.image,
-      description: product.description
+      description: product.description,
+      buyUrl: product.buyUrl || ""
     })
     setShowForm(true)
     logEvent('admin_action', { action: 'edit_product_form', product_id: product.id })
@@ -134,7 +138,8 @@ export default function AdminPage() {
       price: "",
       category: "",
       image: "",
-      description: ""
+      description: "",
+      buyUrl: ""
     })
   }
 
@@ -312,6 +317,22 @@ export default function AdminPage() {
                       rows={4}
                       className="border-gray-300 focus:border-black"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      BUY URL (OPTIONAL)
+                    </label>
+                    <Input
+                      name="buyUrl"
+                      value={formData.buyUrl}
+                      onChange={handleInputChange}
+                      placeholder="https://example.com/buy-product"
+                      className="border-gray-300 focus:border-black"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      If provided, "BUY NOW" button will redirect to this URL
+                    </p>
                   </div>
 
                   <div className="flex justify-end space-x-4">

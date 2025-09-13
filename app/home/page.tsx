@@ -49,9 +49,12 @@ export default function HomePage() {
           }`}
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center">
+          <div className="flex items-center">
+            <a href="/home" className="flex items-center space-x-3">
               <img src="/acme-logo.png" alt="LEGACY" className="h-10 w-auto" />
-            </div>
+              <span className="text-lg font-medium tracking-widest uppercase">LEGACY</span>
+            </a>
+          </div>
 
           <nav className="hidden md:flex items-center space-x-12">
             <a
@@ -72,29 +75,7 @@ export default function HomePage() {
             >
               ABOUT
             </a>
-            {["MEN", "WOMEN", "KIDS"].map((item, index) => (
-              <a
-                key={item}
-                href="#"
-                className={`text-black hover:text-gray-500 text-xs font-medium tracking-widest uppercase transition-all duration-500 ${
-                  isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-                }`}
-                style={{ transitionDelay: `${400 + index * 100}ms` }}
-              >
-                {item}
-              </a>
-            ))}
-              <Button
-                variant="outline"
-                size="sm"
-                className={`border-black text-black hover:bg-black hover:text-white text-xs font-medium tracking-widest uppercase bg-transparent px-6 transition-all duration-500 ${
-                  isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-                }`}
-                style={{ transitionDelay: "600ms" }}
-              >
-                AI TRY-ON
-              </Button>
-            </nav>
+          </nav>
 
             <div
               className={`flex items-center space-x-6 transition-all duration-700 ${
@@ -108,10 +89,13 @@ export default function HomePage() {
                   type="text"
                   placeholder="SEARCH"
                   className="bg-transparent text-xs outline-none placeholder-gray-400 w-24 font-mono tracking-wider"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      window.location.href = '/products'
+                    }
+                  }}
                 />
               </div>
-              <Heart className="w-4 h-4 text-black cursor-pointer hover:text-gray-500 transition-colors" />
-              <ShoppingBag className="w-4 h-4 text-black cursor-pointer hover:text-gray-500 transition-colors" />
             </div>
           </div>
         </header>
@@ -151,21 +135,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Bottom Upload Area */}
-        <div
-          className={`fixed bottom-8 right-8 z-40 transition-all duration-700 ${
-            isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-          }`}
-          style={{ transitionDelay: "800ms" }}
-        >
-          <div className="border-2 border-dashed border-gray-300 bg-gray-50 p-8 text-center w-64 hover:shadow-md hover:scale-102">
-            <Upload className="w-6 h-6 mx-auto mb-3 text-gray-400 animate-bounce" />
-            <h3 className="text-sm font-medium mb-2 tracking-wide animate-pulse">DROP YOUR PHOTO</h3>
-            <p className="text-xs text-gray-400 font-mono tracking-wider mt-2 animate-fade-in">
-              To see how the products would look on you
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Footer */}
