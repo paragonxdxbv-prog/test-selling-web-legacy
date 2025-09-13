@@ -192,7 +192,7 @@ export default function AboutPage() {
           </div>
 
           {/* Company Rules Section */}
-          {companyRules.length > 0 && (
+          {(
             <div
               className={`mb-20 transition-all duration-700 ${
                 isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"

@@ -159,35 +159,35 @@ export default function ProductsPage() {
             style={{ transitionDelay: "350ms" }}
           >
             {/* Search Bar */}
-            <div className="flex items-center bg-gray-50 dark:bg-gray-800 rounded-none px-4 py-3 border border-gray-200 dark:border-gray-700 flex-1">
-              <Search className="w-4 h-4 text-gray-400 dark:text-gray-500 mr-3" />
+            <div className="flex items-center bg-gray-50 dark:bg-black rounded-none px-4 py-3 border border-gray-200 dark:border-gray-700 flex-1">
+              <Search className="w-4 h-4 text-gray-400 dark:text-white mr-3" />
               <input
                 type="text"
                 placeholder="SEARCH PRODUCTS..."
                 value={searchQuery}
                 onChange={(e: any) => setSearchQuery(e.target.value)}
-                className="bg-transparent text-sm outline-none placeholder-gray-400 dark:placeholder-gray-500 w-full font-mono tracking-wider text-black dark:text-white"
+                className="bg-transparent text-sm outline-none placeholder-gray-400 dark:placeholder-white w-full font-mono tracking-wider text-black dark:text-white"
               />
             </div>
 
             {/* Price Range Filter */}
-            <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800 rounded-none px-4 py-3 border border-gray-200 dark:border-gray-700">
-              <Filter className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-              <span className="text-xs font-medium tracking-widest uppercase text-gray-600 dark:text-gray-400">PRICE:</span>
+            <div className="flex items-center gap-4 bg-gray-50 dark:bg-black rounded-none px-4 py-3 border border-gray-200 dark:border-gray-700">
+              <Filter className="w-4 h-4 text-gray-400 dark:text-white" />
+              <span className="text-xs font-medium tracking-widest uppercase text-gray-600 dark:text-white">PRICE:</span>
               <input
                 type="number"
                 placeholder="MIN"
                 value={priceRange.min}
                 onChange={(e: any) => setPriceRange((prev: any) => ({ ...prev, min: parseInt(e.target.value) || 0 }))}
-                className="bg-transparent text-xs outline-none placeholder-gray-400 dark:placeholder-gray-500 w-16 font-mono tracking-wider border-r border-gray-300 dark:border-gray-600 pr-2 text-black dark:text-white"
+                className="bg-transparent text-xs outline-none placeholder-gray-400 dark:placeholder-white w-16 font-mono tracking-wider border-r border-gray-300 dark:border-gray-600 pr-2 text-black dark:text-white"
               />
-              <span className="text-gray-400 dark:text-gray-500">-</span>
+              <span className="text-gray-400 dark:text-white">-</span>
               <input
                 type="number"
                 placeholder="MAX"
                 value={priceRange.max}
                 onChange={(e: any) => setPriceRange((prev: any) => ({ ...prev, max: parseInt(e.target.value) || 1000 }))}
-                className="bg-transparent text-xs outline-none placeholder-gray-400 dark:placeholder-gray-500 w-16 font-mono tracking-wider text-black dark:text-white"
+                className="bg-transparent text-xs outline-none placeholder-gray-400 dark:placeholder-white w-16 font-mono tracking-wider text-black dark:text-white"
               />
             </div>
           </div>
@@ -203,7 +203,7 @@ export default function ProductsPage() {
               <Button
                 key={category}
                 variant="outline"
-                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-6 transition-all duration-300 ${
+                className={`border-gray-300 dark:border-gray-600 text-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 text-xs font-medium tracking-widest uppercase bg-transparent px-6 transition-all duration-300 ${
                   selectedCategory === category ? "bg-black dark:bg-white text-white dark:text-black border-black dark:border-white" : ""
                 }`}
                 onClick={() => handleCategoryFilter(category)}
@@ -218,7 +218,7 @@ export default function ProductsPage() {
           {loading ? (
             <div className="text-center py-16">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white mx-auto mb-4"></div>
-              <p className="text-sm font-mono tracking-widest uppercase text-gray-500 dark:text-gray-400">LOADING PRODUCTS...</p>
+              <p className="text-sm font-mono tracking-widest uppercase text-gray-500 dark:text-white">LOADING PRODUCTS...</p>
             </div>
           ) : (
             <div className={`grid gap-8 transition-all duration-700 ${
@@ -249,8 +249,8 @@ export default function ProductsPage() {
                 <div className={`space-y-3 ${viewMode === "list" ? "flex-1" : ""}`}>
                   <div>
                     <h3 className="text-sm font-medium tracking-wide">{product.name}</h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-widest font-mono">{product.category}</p>
-                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">{product.description}</p>
+                    <p className="text-xs text-gray-500 dark:text-white uppercase tracking-widest font-mono">{product.category}</p>
+                    <p className="text-xs text-gray-600 dark:text-white mt-2 line-clamp-2">{product.description}</p>
                   </div>
                   <div className={`flex items-center justify-between ${viewMode === "list" ? "mt-4" : ""}`}>
                     <div className="flex flex-col">
@@ -265,7 +265,7 @@ export default function ProductsPage() {
                       )}
                     </div>
                     <button 
-                      className="bg-white dark:bg-gray-900 text-black dark:text-white border-2 border-black dark:border-white px-6 py-2 text-xs font-medium tracking-widest uppercase cursor-pointer hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 hover:scale-105 whitespace-nowrap"
+                      className="bg-white dark:bg-black text-black dark:text-white border-2 border-black dark:border-white px-6 py-2 text-xs font-medium tracking-widest uppercase cursor-pointer hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-300 hover:scale-105 whitespace-nowrap"
                       onClick={() => {
                         if (product.buyUrl) {
                           // Log the purchase attempt

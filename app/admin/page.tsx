@@ -310,7 +310,7 @@ export default function AdminPage() {
                       value={formData.name}
                       onChange={handleInputChange}
                       placeholder="Enter product name"
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                   </div>
 
@@ -324,7 +324,7 @@ export default function AdminPage() {
                         value={formData.price}
                         onChange={handleInputChange}
                         placeholder="$180"
-                        className="border-gray-300 focus:border-black"
+                        className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                       />
                     </div>
                     <div>
@@ -336,7 +336,7 @@ export default function AdminPage() {
                         value={formData.originalPrice}
                         onChange={handleInputChange}
                         placeholder="$200"
-                        className="border-gray-300 focus:border-black"
+                        className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                       />
                     </div>
                   </div>
@@ -352,7 +352,7 @@ export default function AdminPage() {
                         onChange={handleInputChange}
                         placeholder="10"
                         type="number"
-                        className="border-gray-300 focus:border-black"
+                        className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                       />
                     </div>
                     <div>
@@ -382,7 +382,7 @@ export default function AdminPage() {
                       value={formData.image}
                       onChange={handleInputChange}
                       placeholder="https://example.com/image.jpg"
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                   </div>
 
@@ -396,7 +396,7 @@ export default function AdminPage() {
                       onChange={handleInputChange}
                       placeholder="Enter product description"
                       rows={4}
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                   </div>
 
@@ -409,7 +409,7 @@ export default function AdminPage() {
                       value={formData.buyUrl}
                       onChange={handleInputChange}
                       placeholder="https://example.com/buy-product"
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                     <p className="text-xs text-gray-500 mt-1">
                       If provided, "BUY NOW" button will redirect to this URL
@@ -535,7 +535,7 @@ export default function AdminPage() {
                     <Input
                       value={aboutContent.heroTitle}
                       onChange={(e) => setAboutContent(prev => ({ ...prev, heroTitle: e.target.value }))}
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                   </div>
 
@@ -547,7 +547,7 @@ export default function AdminPage() {
                       value={aboutContent.heroDescription}
                       onChange={(e) => setAboutContent(prev => ({ ...prev, heroDescription: e.target.value }))}
                       rows={3}
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                   </div>
 
@@ -558,7 +558,7 @@ export default function AdminPage() {
                     <Input
                       value={aboutContent.storyTitle}
                       onChange={(e) => setAboutContent(prev => ({ ...prev, storyTitle: e.target.value }))}
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                   </div>
 
@@ -577,7 +577,7 @@ export default function AdminPage() {
                             setAboutContent(prev => ({ ...prev, storyContent: newStoryContent }))
                           }}
                           rows={3}
-                          className="border-gray-300 focus:border-black"
+                          className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                         />
                       </div>
                     ))}
@@ -590,7 +590,7 @@ export default function AdminPage() {
                     <Input
                       value={aboutContent.missionTitle}
                       onChange={(e) => setAboutContent(prev => ({ ...prev, missionTitle: e.target.value }))}
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                   </div>
 
@@ -602,7 +602,7 @@ export default function AdminPage() {
                       value={aboutContent.missionContent}
                       onChange={(e) => setAboutContent(prev => ({ ...prev, missionContent: e.target.value }))}
                       rows={4}
-                      className="border-gray-300 focus:border-black"
+                      className="border-gray-300 dark:border-gray-600 focus:border-black dark:focus:border-white bg-white dark:bg-white text-black dark:text-black"
                     />
                   </div>
 
