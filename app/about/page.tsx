@@ -55,7 +55,7 @@ export default function AboutPage() {
       <FirebaseAnalytics />
       {/* Header */}
       <header
-        className={`px-8 py-6 border-b border-gray-200 transition-all duration-700 ${
+        className={`px-8 py-6 border-b border-gray-200 bg-gray-50/92 transition-all duration-700 ${
           isPageLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
         }`}
       >

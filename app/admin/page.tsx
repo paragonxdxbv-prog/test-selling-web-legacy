@@ -16,6 +16,8 @@ interface Product {
   id: string
   name: string
   price: string
+  originalPrice?: string
+  discountPercentage?: number
   category: string
   image: string
   description: string
@@ -26,6 +28,26 @@ const categories = ["DIGITAL PRODUCTS", "RUNNING SHOES", "LIFESTYLE SHOES", "MEN
 
 export default function AdminPage() {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
+  const [activeTab, setActiveTab] = useState("products")
+  const [aboutContent, setAboutContent] = useState({
+    heroTitle: "ABOUT LEGACY",
+    heroDescription: "WE ARE PIONEERS IN THE FUSION OF FASHION AND TECHNOLOGY, CREATING UNPRECEDENTED SHOPPING EXPERIENCES THAT BRIDGE THE GAP BETWEEN DIGITAL AND PHYSICAL REALITY.",
+    storyTitle: "OUR STORY",
+    storyContent: [
+      "Founded in 2010, LEGACY emerged from a simple yet revolutionary idea: what if technology could make fashion more personal, more accessible, and more exciting than ever before?",
+      "We started as a small team of fashion enthusiasts and tech innovators, united by a shared vision of transforming how people discover, try on, and experience clothing in the digital age.",
+      "Today, we're proud to be at the forefront of AI-powered fashion technology, serving millions of customers worldwide with our innovative try-on experiences and premium product offerings."
+    ],
+    missionTitle: "OUR MISSION",
+    missionContent: "TO DEMOCRATIZE FASHION BY MAKING IT MORE ACCESSIBLE, PERSONAL, AND SUSTAINABLE THROUGH INNOVATIVE TECHNOLOGY, WHILE MAINTAINING THE HIGHEST STANDARDS OF QUALITY AND CUSTOMER EXPERIENCE."
+  })
+  const [companyRules, setCompanyRules] = useState([
+    "All products must meet our premium quality standards before listing",
+    "Customer data privacy and security is our top priority",
+    "We maintain sustainable and ethical sourcing practices",
+    "Innovation and customer experience drive all our decisions",
+    "We provide honest and transparent product descriptions"
+  ])
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -33,6 +55,8 @@ export default function AdminPage() {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
+    originalPrice: "",
+    discountPercentage: "",
     category: "",
     image: "",
     description: "",
@@ -89,6 +113,8 @@ export default function AdminPage() {
     setFormData({
       name: product.name,
       price: product.price,
+      originalPrice: product.originalPrice || "",
+      discountPercentage: product.discountPercentage?.toString() || "",
       category: product.category,
       image: product.image,
       description: product.description,
@@ -216,17 +242,43 @@ export default function AdminPage() {
       {/* Main Content */}
       <section className="px-8 py-16">
         <div className="max-w-7xl mx-auto">
-          {/* Page Title */}
+          {/* Tab Navigation */}
           <div
-            className={`flex items-center justify-between mb-12 transition-all duration-700 ${
+            className={`flex border-b border-gray-200 mb-12 transition-all duration-700 ${
               isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
             style={{ transitionDelay: "300ms" }}
           >
-            <h1 className="text-3xl font-medium tracking-widest uppercase">PRODUCT MANAGEMENT</h1>
-            <div className="text-sm text-gray-500 font-mono">
-              {products.length} PRODUCTS
-            </div>
+            <button
+              onClick={() => setActiveTab("products")}
+              className={`px-6 py-3 text-sm font-medium tracking-widest uppercase transition-all duration-300 ${
+                activeTab === "products"
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              PRODUCTS ({products.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("about")}
+              className={`px-6 py-3 text-sm font-medium tracking-widest uppercase transition-all duration-300 ${
+                activeTab === "about"
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              ABOUT PAGE
+            </button>
+            <button
+              onClick={() => setActiveTab("rules")}
+              className={`px-6 py-3 text-sm font-medium tracking-widest uppercase transition-all duration-300 ${
+                activeTab === "rules"
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              COMPANY RULES ({companyRules.length})
+            </button>
           </div>
 
           {/* Product Form Modal */}
@@ -264,13 +316,41 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium tracking-widest uppercase mb-2">
-                        PRICE
+                        CURRENT PRICE
                       </label>
                       <Input
                         name="price"
                         value={formData.price}
                         onChange={handleInputChange}
                         placeholder="$180"
+                        className="border-gray-300 focus:border-black"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                        ORIGINAL PRICE (OPTIONAL)
+                      </label>
+                      <Input
+                        name="originalPrice"
+                        value={formData.originalPrice}
+                        onChange={handleInputChange}
+                        placeholder="$200"
+                        className="border-gray-300 focus:border-black"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                        DISCOUNT % (OPTIONAL)
+                      </label>
+                      <Input
+                        name="discountPercentage"
+                        value={formData.discountPercentage}
+                        onChange={handleInputChange}
+                        placeholder="10"
+                        type="number"
                         className="border-gray-300 focus:border-black"
                       />
                     </div>
@@ -356,82 +436,241 @@ export default function AdminPage() {
             </div>
           )}
 
-          {/* Products Grid */}
-          {loading ? (
-            <div className="text-center py-16">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black mx-auto mb-4"></div>
-              <p className="text-sm font-mono tracking-widest uppercase text-gray-500">LOADING PRODUCTS...</p>
-            </div>
-          ) : (
-            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 transition-all duration-700 ${
-              isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-            }`}
-            style={{ transitionDelay: "500ms" }}>
-              {products.map((product, index) => (
+          {/* Tab Content */}
+          {activeTab === "products" && (
+            <>
+              {/* Products Grid */}
+              {loading ? (
+                <div className="text-center py-16">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black mx-auto mb-4"></div>
+                  <p className="text-sm font-mono tracking-widest uppercase text-gray-500">LOADING PRODUCTS...</p>
+                </div>
+              ) : (
+                <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 transition-all duration-700 ${
+                  isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+                }`}
+                style={{ transitionDelay: "500ms" }}>
+                  {products.map((product, index) => (
+                    <div
+                      key={product.id}
+                      className={`group cursor-pointer transition-all duration-700 ${
+                        isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+                      }`}
+                      style={{ transitionDelay: `${600 + index * 100}ms` }}
+                    >
+                      <div className="relative w-full overflow-hidden mb-4">
+                        <ImageWithLoading
+                          src={product.image || "/placeholder.svg"}
+                          alt={product.name}
+                          className="w-full h-64 object-cover group-hover:scale-105 transition-all duration-500"
+                        />
+                        <div className="absolute top-2 right-2 flex space-x-2">
+                          <Button
+                            size="sm"
+                            onClick={() => handleEditProduct(product)}
+                            className="bg-white text-black hover:bg-gray-100 border-0 p-2 h-8 w-8"
+                          >
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            onClick={() => handleDeleteProduct(product.id)}
+                            className="bg-red-500 text-white hover:bg-red-600 border-0 p-2 h-8 w-8"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div>
+                          <h3 className="text-sm font-medium tracking-wide">{product.name}</h3>
+                          <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{product.category}</p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium tracking-wide">{product.price}</span>
+                          <span className="text-xs text-gray-400 font-mono">ID: {product.id}</span>
+                        </div>
+                        <p className="text-xs text-gray-600 line-clamp-2">{product.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {!loading && products.length === 0 && (
                 <div
-                  key={product.id}
-                  className={`group cursor-pointer transition-all duration-700 ${
+                  className={`text-center py-16 transition-all duration-700 ${
                     isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
                   }`}
-                  style={{ transitionDelay: `${600 + index * 100}ms` }}
+                  style={{ transitionDelay: "600ms" }}
                 >
-                  <div className="relative w-full overflow-hidden mb-4">
-                    <ImageWithLoading
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
-                      className="w-full h-64 object-cover group-hover:scale-105 transition-all duration-500"
+                  <p className="text-gray-500 text-sm font-mono tracking-widest uppercase mb-4">
+                    NO PRODUCTS FOUND
+                  </p>
+                  <Button
+                    onClick={handleAddProduct}
+                    className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    ADD FIRST PRODUCT
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* About Page Content Management */}
+          {activeTab === "about" && (
+            <div className="space-y-8">
+              <div className="bg-gray-50 p-6 rounded-none">
+                <h2 className="text-xl font-medium tracking-widest uppercase mb-6">ABOUT PAGE CONTENT</h2>
+                
+                <div className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      HERO TITLE
+                    </label>
+                    <Input
+                      value={aboutContent.heroTitle}
+                      onChange={(e) => setAboutContent(prev => ({ ...prev, heroTitle: e.target.value }))}
+                      className="border-gray-300 focus:border-black"
                     />
-                    <div className="absolute top-2 right-2 flex space-x-2">
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      HERO DESCRIPTION
+                    </label>
+                    <Textarea
+                      value={aboutContent.heroDescription}
+                      onChange={(e) => setAboutContent(prev => ({ ...prev, heroDescription: e.target.value }))}
+                      rows={3}
+                      className="border-gray-300 focus:border-black"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      STORY TITLE
+                    </label>
+                    <Input
+                      value={aboutContent.storyTitle}
+                      onChange={(e) => setAboutContent(prev => ({ ...prev, storyTitle: e.target.value }))}
+                      className="border-gray-300 focus:border-black"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      STORY CONTENT (3 PARAGRAPHS)
+                    </label>
+                    {aboutContent.storyContent.map((paragraph, index) => (
+                      <div key={index} className="mb-4">
+                        <label className="block text-xs text-gray-500 mb-1">Paragraph {index + 1}</label>
+                        <Textarea
+                          value={paragraph}
+                          onChange={(e) => {
+                            const newStoryContent = [...aboutContent.storyContent]
+                            newStoryContent[index] = e.target.value
+                            setAboutContent(prev => ({ ...prev, storyContent: newStoryContent }))
+                          }}
+                          rows={3}
+                          className="border-gray-300 focus:border-black"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      MISSION TITLE
+                    </label>
+                    <Input
+                      value={aboutContent.missionTitle}
+                      onChange={(e) => setAboutContent(prev => ({ ...prev, missionTitle: e.target.value }))}
+                      className="border-gray-300 focus:border-black"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-2">
+                      MISSION CONTENT
+                    </label>
+                    <Textarea
+                      value={aboutContent.missionContent}
+                      onChange={(e) => setAboutContent(prev => ({ ...prev, missionContent: e.target.value }))}
+                      rows={4}
+                      className="border-gray-300 focus:border-black"
+                    />
+                  </div>
+
+                  <div className="flex justify-end">
+                    <Button
+                      className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2"
+                    >
+                      <Save className="w-4 h-4 mr-2" />
+                      SAVE ABOUT CONTENT
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Company Rules Management */}
+          {activeTab === "rules" && (
+            <div className="space-y-8">
+              <div className="bg-gray-50 p-6 rounded-none">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-medium tracking-widest uppercase">COMPANY RULES</h2>
+                  <Button
+                    onClick={() => setCompanyRules(prev => [...prev, ""])}
+                    className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-4 py-2"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    ADD RULE
+                  </Button>
+                </div>
+                
+                <div className="space-y-4">
+                  {companyRules.map((rule, index) => (
+                    <div key={index} className="flex items-center space-x-4">
+                      <div className="flex-1">
+                        <Input
+                          value={rule}
+                          onChange={(e) => {
+                            const newRules = [...companyRules]
+                            newRules[index] = e.target.value
+                            setCompanyRules(newRules)
+                          }}
+                          placeholder={`Company rule ${index + 1}`}
+                          className="border-gray-300 focus:border-black"
+                        />
+                      </div>
                       <Button
                         size="sm"
-                        onClick={() => handleEditProduct(product)}
-                        className="bg-white text-black hover:bg-gray-100 border-0 p-2 h-8 w-8"
-                      >
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => handleDeleteProduct(product.id)}
+                        onClick={() => {
+                          const newRules = companyRules.filter((_, i) => i !== index)
+                          setCompanyRules(newRules)
+                        }}
                         className="bg-red-500 text-white hover:bg-red-600 border-0 p-2 h-8 w-8"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div>
-                      <h3 className="text-sm font-medium tracking-wide">{product.name}</h3>
-                      <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{product.category}</p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium tracking-wide">{product.price}</span>
-                      <span className="text-xs text-gray-400 font-mono">ID: {product.id}</span>
-                    </div>
-                    <p className="text-xs text-gray-600 line-clamp-2">{product.description}</p>
-                  </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          )}
 
-          {!loading && products.length === 0 && (
-            <div
-              className={`text-center py-16 transition-all duration-700 ${
-                isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
-              }`}
-              style={{ transitionDelay: "600ms" }}
-            >
-              <p className="text-gray-500 text-sm font-mono tracking-widest uppercase mb-4">
-                NO PRODUCTS FOUND
-              </p>
-              <Button
-                onClick={handleAddProduct}
-                className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                ADD FIRST PRODUCT
-              </Button>
+                <div className="flex justify-end mt-6">
+                  <Button
+                    className="bg-black text-white hover:bg-gray-800 border-0 text-xs font-medium tracking-widest uppercase px-6 py-2"
+                  >
+                    <Save className="w-4 h-4 mr-2" />
+                    SAVE COMPANY RULES
+                  </Button>
+                </div>
+              </div>
             </div>
           )}
         </div>

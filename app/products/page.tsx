@@ -12,6 +12,8 @@ interface Product {
   id: string
   name: string
   price: string
+  originalPrice?: string
+  discountPercentage?: number
   category: string
   image: string
   description: string
@@ -99,7 +101,7 @@ export default function ProductsPage() {
       <FirebaseAnalytics />
       {/* Header */}
       <header
-        className={`px-8 py-6 border-b border-gray-200 transition-all duration-700 ${
+        className={`px-8 py-6 border-b border-gray-200 bg-gray-50/92 transition-all duration-700 ${
           isPageLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
         }`}
       >
@@ -253,12 +255,20 @@ export default function ProductsPage() {
                   <div>
                     <h3 className="text-sm font-medium tracking-wide">{product.name}</h3>
                     <p className="text-xs text-gray-500 uppercase tracking-widest font-mono">{product.category}</p>
-                    {viewMode === "list" && (
-                      <p className="text-xs text-gray-600 mt-2">{product.description}</p>
-                    )}
+                    <p className="text-xs text-gray-600 mt-2 line-clamp-2">{product.description}</p>
                   </div>
                   <div className={`flex items-center justify-between ${viewMode === "list" ? "mt-4" : ""}`}>
-                    <span className="text-sm font-medium tracking-wide">{product.price}</span>
+                    <div className="flex flex-col">
+                      {product.originalPrice && product.discountPercentage ? (
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm font-medium tracking-wide text-red-600">{product.price}</span>
+                          <span className="text-xs text-gray-400 line-through">{product.originalPrice}</span>
+                          <span className="text-xs bg-red-100 text-red-600 px-2 py-1 rounded">{product.discountPercentage}% OFF</span>
+                        </div>
+                      ) : (
+                        <span className="text-sm font-medium tracking-wide">{product.price}</span>
+                      )}
+                    </div>
                     <button 
                       className="bg-white text-black border-2 border-black px-6 py-2 text-xs font-medium tracking-widest uppercase cursor-pointer hover:bg-black hover:text-white transition-all duration-300 hover:scale-105"
                       onClick={() => {

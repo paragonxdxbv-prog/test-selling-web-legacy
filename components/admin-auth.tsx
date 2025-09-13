@@ -23,7 +23,7 @@ export function AdminAuth() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
     // Simple password check - in production, use proper authentication
-    if (password === 'legacy2025') {
+    if (password === 'xPev;1Y5iz]G%0eD1sTS;zX92RYr>{') {
       localStorage.setItem('admin_authenticated', 'true')
       setIsAuthenticated(true)
     } else {
