@@ -101,7 +101,7 @@ export default function AboutPage() {
 
   return (
     <div
-      className={`min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white font-mono transition-all duration-1000 ${
+      className={`min-h-screen bg-white dark:bg-black text-black dark:text-white font-mono transition-all duration-1000 ${
         isPageLoaded ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -158,7 +158,7 @@ export default function AboutPage() {
           >
             <h2 className="text-2xl font-medium tracking-widest uppercase mb-12 text-center">OUR VALUES</h2>
             <div className="grid md:grid-cols-2 gap-12">
-              {aboutContent.values.map((value: any, index: number) => (
+              {aboutContent.values && aboutContent.values.length > 0 ? aboutContent.values.map((value: any, index: number) => (
                 <div
                   key={value.title}
                   className="text-center"
@@ -170,13 +170,17 @@ export default function AboutPage() {
                   <h3 className="text-lg font-medium tracking-widest uppercase mb-4">{value.title}</h3>
                   <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{value.description}</p>
                 </div>
-              ))}
+              )) : (
+                <div className="col-span-2 text-center py-8">
+                  <p className="text-gray-500 dark:text-gray-400">Loading values...</p>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Mission Section */}
           <div
-            className={`bg-gray-50 dark:bg-gray-800 p-12 text-center mb-20 transition-all duration-700 ${
+            className={`bg-gray-50 dark:bg-black p-12 text-center mb-20 transition-all duration-700 ${
               isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
             }`}
             style={{ transitionDelay: "1100ms" }}

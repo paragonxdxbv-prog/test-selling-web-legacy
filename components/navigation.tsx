@@ -21,7 +21,7 @@ export function Navigation({ isPageLoaded, currentPage = "home" }: NavigationPro
 
   return (
     <header
-      className={`px-8 py-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-all duration-700 ${
+      className={`px-8 py-6 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-black transition-all duration-700 ${
         isPageLoaded ? "translate-y-0 opacity-100" : "-translate-y-4 opacity-0"
       }`}
     >
