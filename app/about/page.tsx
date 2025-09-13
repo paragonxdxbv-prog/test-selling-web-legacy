@@ -10,6 +10,36 @@ import { Upload, ShoppingBag, Heart, Search, Users, Award, Globe, Target } from 
 export default function AboutPage() {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
   const [companyRules, setCompanyRules] = useState<string[]>([])
+  const [aboutContent, setAboutContent] = useState({
+    heroTitle: "ABOUT LEGACY",
+    heroDescription: "WE ARE PIONEERS IN THE FUSION OF FASHION AND TECHNOLOGY, CREATING UNPRECEDENTED SHOPPING EXPERIENCES THAT BRIDGE THE GAP BETWEEN DIGITAL AND PHYSICAL REALITY.",
+    storyTitle: "OUR STORY",
+    storyContent: [
+      "Founded in 2010, LEGACY emerged from a simple yet revolutionary idea: what if technology could make fashion more personal, more accessible, and more exciting than ever before?",
+      "We started as a small team of fashion enthusiasts and tech innovators, united by a shared vision of transforming how people discover, try on, and experience clothing in the digital age.",
+      "Today, we're proud to be at the forefront of AI-powered fashion technology, serving millions of customers worldwide with our innovative try-on experiences and premium product offerings."
+    ],
+    missionTitle: "OUR MISSION",
+    missionContent: "TO DEMOCRATIZE FASHION BY MAKING IT MORE ACCESSIBLE, PERSONAL, AND SUSTAINABLE THROUGH INNOVATIVE TECHNOLOGY, WHILE MAINTAINING THE HIGHEST STANDARDS OF QUALITY AND CUSTOMER EXPERIENCE.",
+    values: [
+      {
+        title: "INNOVATION",
+        description: "We push the boundaries of fashion technology with AI-powered experiences and cutting-edge design."
+      },
+      {
+        title: "COMMUNITY", 
+        description: "Building a global community of fashion enthusiasts who share our passion for style and innovation."
+      },
+      {
+        title: "QUALITY",
+        description: "Every product is crafted with the highest standards of quality, durability, and attention to detail."
+      },
+      {
+        title: "SUSTAINABILITY",
+        description: "Committed to sustainable fashion practices and reducing our environmental impact."
+      }
+    ]
+  })
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,7 +50,20 @@ export default function AboutPage() {
 
   useEffect(() => {
     loadCompanyRules()
+    loadAboutContent()
   }, [])
+
+  const loadAboutContent = async () => {
+    try {
+      const content = await getAboutContent()
+      if (content) {
+        setAboutContent(content)
+      }
+    } catch (error) {
+      console.error('Error loading about content:', error)
+      // Keep default content
+    }
+  }
 
   const loadCompanyRules = async () => {
     try {
@@ -39,29 +82,26 @@ export default function AboutPage() {
     }
   }
 
+  const getValueIcon = (title: string) => {
+    switch (title.toUpperCase()) {
+      case "INNOVATION":
+        return <Target className="w-8 h-8" />
+      case "COMMUNITY":
+        return <Users className="w-8 h-8" />
+      case "QUALITY":
+        return <Award className="w-8 h-8" />
+      case "SUSTAINABILITY":
+        return <Globe className="w-8 h-8" />
+      default:
+        return <Target className="w-8 h-8" />
+    }
+  }
 
-  const values = [
-    {
-      icon: <Target className="w-8 h-8" />,
-      title: "INNOVATION",
-      description: "We push the boundaries of fashion technology with AI-powered experiences and cutting-edge design."
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: "COMMUNITY",
-      description: "Building a global community of fashion enthusiasts who share our passion for style and innovation."
-    },
-    {
-      icon: <Award className="w-8 h-8" />,
-      title: "QUALITY",
-      description: "Every product is crafted with the highest standards of quality, durability, and attention to detail."
-    },
-    {
-      icon: <Globe className="w-8 h-8" />,
-      title: "SUSTAINABILITY",
-      description: "Committed to sustainable fashion practices and reducing our environmental impact."
-    },
-  ]
+  const values = aboutContent.values.map((value) => ({
+    icon: getValueIcon(value.title),
+    title: value.title,
+    description: value.description,
+  }))
 
   return (
     <div
@@ -111,19 +151,8 @@ export default function AboutPage() {
             }`}
             style={{ transitionDelay: "400ms" }}
           >
-            <div className="hidden md:flex items-center bg-gray-50 rounded-none px-4 py-2 border border-gray-200">
-              <Search className="w-4 h-4 text-gray-400 mr-3" />
-              <input
-                type="text"
-                placeholder="SEARCH"
-                className="bg-transparent text-xs outline-none placeholder-gray-400 w-24 font-mono tracking-wider"
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    window.location.href = '/products'
-                  }
-                }}
-              />
-            </div>
+            <ShoppingBag className="w-5 h-5 text-black" />
+            <Heart className="w-5 h-5 text-black" />
           </div>
         </div>
       </header>
@@ -137,11 +166,11 @@ export default function AboutPage() {
             }`}
             style={{ transitionDelay: "300ms" }}
           >
-            <h1 className="text-5xl md:text-7xl font-medium tracking-widest uppercase mb-8">
-              ABOUT LEGACY
+            <h1 className="text-4xl md:text-6xl font-light tracking-widest uppercase mb-6">
+              {aboutContent.heroTitle}
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 font-mono tracking-wider max-w-3xl mx-auto">
-              WE ARE PIONEERS IN THE FUSION OF FASHION AND TECHNOLOGY, CREATING UNPRECEDENTED SHOPPING EXPERIENCES THAT BRIDGE THE GAP BETWEEN DIGITAL AND PHYSICAL REALITY.
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              {aboutContent.heroDescription}
             </p>
           </div>
 
@@ -154,17 +183,13 @@ export default function AboutPage() {
             style={{ transitionDelay: "500ms" }}
           >
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl font-medium tracking-widest uppercase mb-8">OUR STORY</h2>
+              <h2 className="text-2xl font-medium tracking-widest uppercase mb-8">{aboutContent.storyTitle}</h2>
               <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
-                <p>
-                  Founded in 2010, LEGACY emerged from a simple yet revolutionary idea: what if technology could make fashion more personal, more accessible, and more exciting than ever before?
-                </p>
-                <p>
-                  We started as a small team of fashion enthusiasts and tech innovators, united by a shared vision of transforming how people discover, try on, and experience clothing in the digital age.
-                </p>
-                <p>
-                  Today, we're proud to be at the forefront of AI-powered fashion technology, serving millions of customers worldwide with our innovative try-on experiences and premium product offerings.
-                </p>
+                {aboutContent.storyContent.map((paragraph: string, index: number) => (
+                  <p key={index}>
+                    {paragraph}
+                  </p>
+                ))}
               </div>
             </div>
           </div>
@@ -201,9 +226,9 @@ export default function AboutPage() {
             }`}
             style={{ transitionDelay: "1100ms" }}
           >
-            <h2 className="text-2xl font-medium tracking-widest uppercase mb-6">OUR MISSION</h2>
+            <h2 className="text-2xl font-medium tracking-widest uppercase mb-6">{aboutContent.missionTitle}</h2>
             <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              TO DEMOCRATIZE FASHION BY MAKING IT MORE ACCESSIBLE, PERSONAL, AND SUSTAINABLE THROUGH INNOVATIVE TECHNOLOGY, WHILE MAINTAINING THE HIGHEST STANDARDS OF QUALITY AND CUSTOMER EXPERIENCE.
+              {aboutContent.missionContent}
             </p>
           </div>
 

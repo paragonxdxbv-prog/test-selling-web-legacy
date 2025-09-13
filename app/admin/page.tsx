@@ -24,7 +24,7 @@ interface Product {
   buyUrl?: string
 }
 
-const categories = ["DIGITAL PRODUCTS", "RUNNING SHOES", "LIFESTYLE SHOES", "MEN'S SHIRTS", "MEN'S PANTS", "MEN'S SHORTS", "MEN'S JACKETS", "MEN'S HOODIE", "ACCESSORIES"]
+const categories = ["DIGITAL PRODUCTS", "SHOES", "CLOTHING", "ACCESSORIES", "NEW ARRIVALS"]
 
 export default function AdminPage() {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
@@ -35,7 +35,13 @@ export default function AdminPage() {
     storyTitle: "",
     storyContent: [],
     missionTitle: "",
-    missionContent: ""
+    missionContent: "",
+    values: [
+      { title: "INNOVATION", description: "We push the boundaries of fashion technology with AI-powered experiences and cutting-edge design." },
+      { title: "COMMUNITY", description: "Building a global community of fashion enthusiasts who share our passion for style and innovation." },
+      { title: "QUALITY", description: "Every product is crafted with the highest standards of quality, durability, and attention to detail." },
+      { title: "SUSTAINABILITY", description: "Committed to sustainable fashion practices and reducing our environmental impact." }
+    ]
   })
   const [companyRules, setCompanyRules] = useState<string[]>([])
   const [products, setProducts] = useState<Product[]>([])
@@ -637,6 +643,43 @@ export default function AdminPage() {
                       rows={4}
                       className="border-gray-300 focus:border-black"
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium tracking-widest uppercase mb-4">
+                      OUR VALUES (4 VALUES)
+                    </label>
+                    {aboutContent.values.map((value, index) => (
+                      <div key={index} className="mb-6 p-4 border border-gray-200 bg-white">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-xs text-gray-500 mb-1">Value Title</label>
+                            <Input
+                              value={value.title}
+                              onChange={(e) => {
+                                const newValues = [...aboutContent.values]
+                                newValues[index] = { ...newValues[index], title: e.target.value }
+                                setAboutContent(prev => ({ ...prev, values: newValues }))
+                              }}
+                              className="border-gray-300 focus:border-black"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs text-gray-500 mb-1">Value Description</label>
+                            <Textarea
+                              value={value.description}
+                              onChange={(e) => {
+                                const newValues = [...aboutContent.values]
+                                newValues[index] = { ...newValues[index], description: e.target.value }
+                                setAboutContent(prev => ({ ...prev, values: newValues }))
+                              }}
+                              rows={3}
+                              className="border-gray-300 focus:border-black"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
 
                   <div className="flex justify-end">

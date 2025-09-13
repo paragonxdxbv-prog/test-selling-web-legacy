@@ -188,29 +188,23 @@ export const getAboutContent = async () => {
         missionContent: "TO DEMOCRATIZE FASHION BY MAKING IT MORE ACCESSIBLE, PERSONAL, AND SUSTAINABLE THROUGH INNOVATIVE TECHNOLOGY, WHILE MAINTAINING THE HIGHEST STANDARDS OF QUALITY AND CUSTOMER EXPERIENCE."
       }
     }
+    return null
   } catch (error) {
-    console.error('Error getting about content:', error)
-    throw error
+    console.error('Error fetching about content:', error)
+    return null
   }
 }
 
-export const getCompanyRules = async () => {
+export const getCompanyRules = async (): Promise<string[]> => {
   try {
-    const docRef = doc(db, 'content', 'rules')
+    const docRef = doc(db, 'settings', 'companyRules')
     const docSnap = await getDoc(docRef)
     
     if (docSnap.exists()) {
-      return docSnap.data().rules || []
-    } else {
-      // Return default rules if document doesn't exist
-      return [
-        "All products must meet our premium quality standards before listing",
-        "Customer data privacy and security is our top priority",
-        "We maintain sustainable and ethical sourcing practices",
-        "Innovation and customer experience drive all our decisions",
-        "We provide honest and transparent product descriptions"
-      ]
+      const data = docSnap.data()
+      return data.rules || []
     }
+    return []
   } catch (error) {
     console.error('Error getting company rules:', error)
     throw error

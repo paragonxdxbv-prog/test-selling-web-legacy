@@ -31,6 +31,8 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("ALL")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
+  const [searchQuery, setSearchQuery] = useState("")
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 })
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -85,12 +87,23 @@ export default function ProductsPage() {
     setViewMode(mode)
   }
 
-  const filteredProducts = selectedCategory === "ALL" 
-    ? products 
-    : products.filter(product => 
-        product.category.toLowerCase().includes(selectedCategory.toLowerCase()) ||
-        product.name.toLowerCase().includes(selectedCategory.toLowerCase())
-      )
+  const filteredProducts = products.filter(product => {
+    // Category filter
+    const categoryMatch = selectedCategory === "ALL" || 
+      product.category.toLowerCase().includes(selectedCategory.toLowerCase()) ||
+      product.name.toLowerCase().includes(selectedCategory.toLowerCase())
+    
+    // Search filter
+    const searchMatch = searchQuery === "" || 
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.toLowerCase())
+    
+    // Price filter
+    const productPrice = parseFloat(product.price.replace(/[^0-9.]/g, ''))
+    const priceMatch = productPrice >= priceRange.min && productPrice <= priceRange.max
+    
+    return categoryMatch && searchMatch && priceMatch
+  })
 
   return (
     <div
@@ -140,23 +153,8 @@ export default function ProductsPage() {
             }`}
             style={{ transitionDelay: "400ms" }}
           >
-            <div className="hidden md:flex items-center bg-gray-50 rounded-none px-4 py-2 border border-gray-200">
-              <Search className="w-4 h-4 text-gray-400 mr-3" />
-              <input
-                type="text"
-                placeholder="SEARCH PRODUCTS"
-                className="bg-transparent text-xs outline-none placeholder-gray-400 w-32 font-mono tracking-wider"
-                onChange={(e) => {
-                  const searchTerm = e.target.value.toLowerCase()
-                  const filtered = products.filter(product => 
-                    product.name.toLowerCase().includes(searchTerm) ||
-                    product.category.toLowerCase().includes(searchTerm) ||
-                    product.description.toLowerCase().includes(searchTerm)
-                  )
-                  setProducts(filtered)
-                }}
-              />
-            </div>
+            <ShoppingBag className="w-5 h-5 text-black" />
+            <Heart className="w-5 h-5 text-black" />
           </div>
         </div>
       </header>
@@ -194,6 +192,47 @@ export default function ProductsPage() {
                 <List className="w-4 h-4 mr-2" />
                 LIST
               </Button>
+            </div>
+          </div>
+
+          {/* Search and Price Filter */}
+          <div
+            className={`flex flex-col md:flex-row gap-6 mb-8 transition-all duration-700 ${
+              isPageLoaded ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
+            style={{ transitionDelay: "350ms" }}
+          >
+            {/* Search Bar */}
+            <div className="flex items-center bg-gray-50 rounded-none px-4 py-3 border border-gray-200 flex-1">
+              <Search className="w-4 h-4 text-gray-400 mr-3" />
+              <input
+                type="text"
+                placeholder="SEARCH PRODUCTS..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-transparent text-sm outline-none placeholder-gray-400 w-full font-mono tracking-wider"
+              />
+            </div>
+
+            {/* Price Range Filter */}
+            <div className="flex items-center gap-4 bg-gray-50 rounded-none px-4 py-3 border border-gray-200">
+              <Filter className="w-4 h-4 text-gray-400" />
+              <span className="text-xs font-medium tracking-widest uppercase text-gray-600">PRICE:</span>
+              <input
+                type="number"
+                placeholder="MIN"
+                value={priceRange.min}
+                onChange={(e) => setPriceRange(prev => ({ ...prev, min: parseInt(e.target.value) || 0 }))}
+                className="bg-transparent text-xs outline-none placeholder-gray-400 w-16 font-mono tracking-wider border-r border-gray-300 pr-2"
+              />
+              <span className="text-gray-400">-</span>
+              <input
+                type="number"
+                placeholder="MAX"
+                value={priceRange.max}
+                onChange={(e) => setPriceRange(prev => ({ ...prev, max: parseInt(e.target.value) || 1000 }))}
+                className="bg-transparent text-xs outline-none placeholder-gray-400 w-16 font-mono tracking-wider"
+              />
             </div>
           </div>
 
